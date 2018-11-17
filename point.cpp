@@ -97,6 +97,17 @@ double Point::GetAngle(const Point& point) const
     return a.Dot(b);
 }
 
+Point Point::GetRotated(const Point& euler_angles) const
+{
+    double cx = std::cos(euler_angles.GetX()), sx = std::sin(euler_angles.GetX());
+    double cy = std::cos(euler_angles.GetY()), sy = std::sin(euler_angles.GetY());
+    double cz = std::cos(euler_angles.GetZ()), sz = std::sin(euler_angles.GetZ());
+
+    return Point(x * cz * cy - y * cy * sz + z * sy,
+                 x * (cx * sz + cz * sx * sy) + y * (cz * cx - sz * sx * sy) - z * cy * sx,
+                 x * (sz * sx - cz * cx * sy) + y * (cz * sx + cx * sz * sy) + z * cy * cx);
+}
+
 Point Point::operator+(const Point& point) const
 {
     return { x + point.x, y + point.y, z + point.z };
@@ -137,4 +148,16 @@ Point& Point::operator*=(double scalar)
     this->y *= scalar;
 
     return *this;
+}
+
+std::istream& operator>>(std::istream& is, Point& point)
+{
+    is >> point.x >> point.y >> point.z;
+    return is;
+}
+
+std::ostream& operator<<(std::ostream& os, const Point& point)
+{
+    os << "(" << point.x << " " << point.y << " " << point.z << ")";
+    return os;
 }

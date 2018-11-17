@@ -1,6 +1,8 @@
 #ifndef POINT_H
 #define POINT_H
 
+#include <fstream>
+
 class Point
 {
 private:
@@ -36,6 +38,8 @@ public:
 
     double GetAngle(const Point& point) const;
 
+    Point GetRotated(const Point& euler_angles) const;
+
     Point operator+(const Point& point) const;
     Point operator-(const Point& point) const;
     Point operator*(double scalar) const;
@@ -43,6 +47,9 @@ public:
     Point& operator+=(const Point& point);
     Point& operator-=(const Point& point);
     Point& operator*=(double scalar);
+
+    friend std::istream& operator>>(std::istream& is, Point& point);
+    friend std::ostream& operator<<(std::ostream& os, const Point& point);
 };
 
 #endif // POINT_H
