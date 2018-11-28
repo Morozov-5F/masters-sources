@@ -1,5 +1,5 @@
 settings.prc = false;
-size(5cm, 5cm);
+size(200pt, 200pt);
 
 import three;
 
@@ -13,9 +13,9 @@ import three;
 
 currentprojection=orthographic(
 camera=(-6.51556088388528,10.6713482986402,2.40117549478684),
-up=(0.00181379536249954,-0.00585051069210866,0.0309226533940109),
-target=(0,-1.77635683940025e-15,-4.44089209850063e-16),
-zoom=0.47402770397409);
+up=(0.0011806887520934,-0.00380838619189776,0.020129084718544),
+target=(-8.88178419700125e-16,-1.77635683940025e-15,-4.44089209850063e-16),
+zoom=0.985469551613407);
 
 // Draw coordinates
 // draw(O -- 2X, L = Label("$x$", position = EndPoint));
@@ -46,13 +46,13 @@ draw(M0 -- M4);
 
 guide3 M04 = M4 -- M0;
 guide3 M41 = M4 -- M1;
-draw(arc(M4, point(M04, 0.1), point(M41, 0.1)), L = scale(0.5) * Label("$\varphi$", position = MidPoint, align = Relative(E)));
+draw(arc(M4, point(M04, 0.1), point(M41, 0.1)), L = scale(0.8) * Label("$\varphi$", position = MidPoint, align = Relative(E)));
 
 
 guide3 M01 = M0 -- M1;
 guide3 M02 = M0 -- M2;
 guide3 M04 = M0 -- M4;
 
-draw(arc(M0, point(M01, 0.3), point(M04, 0.3)), L = scale(0.5) * Label("$\alpha_{14}$", align = Relative(S)));
-draw(arc(M0, point(M02, 0.28), point(M04, 0.28)), L = scale(0.5) * Label("$\alpha_{24}$", align = Relative(S)));
+draw(arc(M0, point(M01, 0.3), point(M04, 0.3)), L = scale(0.8) * Label("$\alpha_{14}$", align = Relative(S)));
+draw(arc(M0, point(M02, 0.28), point(M04, 0.28)), L = scale(0.8) * Label("$\alpha_{24}$", align = Relative(S)));
 
