@@ -1,0 +1,206 @@
+\documentclass[a4paper,12pt]{article}
+
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+
+\usepackage{cmap}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\graphicspath{ {./pictures/} }
+
+
+\usepackage[margin=1in]{geometry}
+
+\author{Виноградов А.Д., Минин Л.А., Морозов Е.Ю., Ушаков С.Н.}
+\title{Исследование различных детерминированных подходов в угломерной радиопеленгации}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section{Случай автономной системы}
+Автономная угломерная радионавигационная система (АУНС) предназначена для определения
+координат и угловой ориентации в пространстве двух воздушных объектов, оснащенных
+высотомерами и бортовыми радиоориентирами с наземного пункта управления (НПУ),
+оснащенного радиоориентиром.
+% Схема размещения на местности воздушных объектов и наземного пункта управления приведены на рис.~\ref{figure:pic3}.
+
+Пусть радиоориентир НПУ расположен в точке $M_0$ с заранее известными координатами
+$M_0\left(x_0, y_0, z_0\right)$ в Балтийской системе координат (БСК), а воздушные объекты
+-- в точках $M_1$ и $M_2$ с координатами $M_i\left(x_i, y_i, z_i\right)$, при этом $z_i$
+совпадает с измерениями высотомера $h_i$. НПУ $M_0$ способен измерять радиопеленг $\theta_i$
+и угол возвышения $\beta_i$ $i$-го воздушного объекта в БСК. Воздушные объект $M_n$
+способен измерять азимут $\alpha_{ni}$ и угол места $\varepsilon_{ni}$ $i$-го
+радиоориентара (наземного или воздушного) в связанной системе координат БПА \cite{antennas}.
+Схема размещения с указанными величинами указана на рис.~\ref{figure:pic3}.
+Пространственное положение радиоорениров в БСК также можно охарактеризовать радиус-векторами
+$\mathbf{r}_i = \left(x_i, y_i, z_i\right)$, где $i = 1,2,3$.
+
+\begin{figure}[htbp]
+    \begin{center}
+
+    \fbox{\includegraphics{pic3}}
+
+    \caption{Схемы размещения на местности БпЛА, НПУ и РО для реализации АУНС}
+    \label{figure:pic3}
+    \end{center}
+\end{figure}
+
+При детерминированном подходе для такой системы возможно однозначно определить координаты
+и уголовую ориентацию воздушных обектов. Для этого нунжно выполнить следующие ключевые шаги:
+\begin{enumerate}
+    \item Определить координаты водушных объектов в БСК.
+    \item Определить координаты радиоориентиров в связанной системе координат воздушного объекта $M_1$ ($\Sigma_{\text{св}1}$).
+    \item Составить матрицу поворота системы координат $\Sigma_{\text{св}1}$ по алгоритму, представленному ниже.
+    \item Определить углы поворота $\Sigma_{\text{св}1}$ по алгоритму, представленному в \cite{antennas}.
+    \item Повторить предыдущие шаги для воздушного ориентира $M_2$.
+\end{enumerate}
+
+Первая часть алгоритма реализуется явно "--- совокупность данных с высотомеров воздушных
+объектов и углов $\theta_i$, $\beta_i$ позволяют определить координаты летательных
+аппаратов однозначно. Таким образом, координаты радиоориентира $M_1$ и $M_2$ определяются следующим
+отношениями:
+\begin{equation}
+    \begin{cases}
+        x_1 = \rho_1 \cos\theta_1 \cos\beta_1 \\
+        y_1 = \rho_1 \cos\theta_1 \cos\beta_1 \\
+        z_1 = h_1 = \rho_1 \sin\beta_1 \\
+        \rho_1 = ~^{z_1}/_{\sin\beta_1}
+    \end{cases},
+    \begin{cases}
+        x_2 = \rho_2 \cos\theta_2 \cos\beta_2 \\
+        y_2 = \rho_2 \cos\theta_2 \cos\beta_2 \\
+        z_2 = h_2 = \rho_2 \sin\beta_2 \\
+        \rho_2 = ~^{z_2}/_{\sin\beta_2}
+    \end{cases}.
+\end{equation}
+
+Далее необходимо определить координаты радиоориентиров $M_0$ и $M_2$ в связанной системе координат
+воздушного объекта $M_1$:
+\begin{equation}
+    \begin{cases}
+        x'_0 = \rho_{10} \cos\alpha_{10} \cos\varepsilon_{10} \\
+        y'_0 = \rho_{10} \sin\alpha_{10} \cos\varepsilon_{10} \\
+        z'_0 = z_1 - z_0 = \rho_{10} \sin\varepsilon_{10} \\
+        \rho_{10} = |\mathbf{r}_1 - \mathbf{r}_0|
+    \end{cases},
+    \begin{cases}
+        x'_2 = \rho_{12} \cos\alpha_{12} \cos\varepsilon_{12} \\
+        y'_2 = \rho_{12} \sin\alpha_{12} \cos\varepsilon_{12} \\
+        z'_2 = z_1 - z_2 = \rho_{12} \sin\varepsilon_{12} \\
+        \rho_{12} = |\mathbf{r}_1 - \mathbf{r}_2|
+    \end{cases},
+\end{equation}
+где $M_0'\left(x'_0, y'_0, z'_0\right)$ и $M_2'\left(x'_2, y'_2, z'_2\right)$
+"--- координаты $M_0$ и $M_2$ в связанной СК $M_1$.
+
+Для определения матрицы поворота системы координат $\Sigma_{\text{св}1}$, необходимо сначала
+ввести радиус-вектора $\mathbf{r}'_0 = \left(x'_0, y'_0, z'_0\right)$ и
+$\mathbf{r}'_2 = \left(x'_2, y'_2, z'_2\right)$, которые определяют положения радиоориентиров
+$M_0$ и $M_2$ в связанной системе координат $M_1$. Далее, зададим единичные векторы
+$\mathbf{s}'_1$, $\mathbf{s}'_2$ и $\mathbf{s}'_3$ следующим образом:
+\begin{equation}
+    \mathbf{s}'_1 = \frac{\mathbf{r}'_0}{|\mathbf{r}'_0|},\
+    \mathbf{s}'_2 = \frac{\mathbf{r}'_2}{|\mathbf{r}'_2|},\
+    \mathbf{s}'_3 = \mathbf{s}'_1 \times \mathbf{s}'_2.
+\end{equation}
+Те же вектора в балтийской системе координат:
+\begin{equation}
+    \mathbf{s}_{01} = \frac{\mathbf{r}_0 - \mathbf{r}_1}{|\mathbf{r}_0 - \mathbf{r}_1|},\
+    \mathbf{s}_{21} = \frac{\mathbf{r}_2 - \mathbf{r}_1}{|\mathbf{r}_2 - \mathbf{r}_1|},\
+    \mathbf{n}_1 = \mathbf{s}_{01} \times \mathbf{s}_{21}.
+\end{equation}
+Остюда получим следующее преобразование координат:
+\begin{equation}
+    \mathbf{R_1} \times
+    \left(
+    \begin{matrix}
+        \mathbf{s}_{01} \\
+        \mathbf{s}_{21} \\
+        \mathbf{n}_1 \\
+    \end{matrix}
+    \right) =
+    \left(
+    \begin{matrix}
+        \mathbf{s}'_1 \\
+        \mathbf{s}'_2 \\
+        \mathbf{s}'_3 \\
+    \end{matrix}
+    \right)
+\end{equation}
+В таком случае, матрицу поворта связанной системы кординат $\Sigma_{\text{св}1}$ можно найти следующим образом:
+\begin{equation}
+    \mathbf{R_1} =
+    \left(
+    \begin{matrix}
+        \mathbf{s}'_1 \\
+        \mathbf{s}'_2 \\
+        \mathbf{s}'_3 \\
+    \end{matrix}
+    \right) \times
+    \left(
+    \begin{matrix}
+        \mathbf{s}_{01} \\
+        \mathbf{s}_{21} \\
+        \mathbf{n}_1 \\
+    \end{matrix}
+    \right)^{-1}
+\end{equation}
+
+По аналогии можно получить матрицу поворота $\mathbf{R}_2$ связанной системы
+кординат $M_2$. Вводятся радиус-вектора $\mathbf{r}''_0 = \left(x''_0, y''_0, z''_0\right)$,
+$\mathbf{r}''_1 = \left(x''_1, y''_1, z''_1\right)$, по ним же определяются единичные вектора
+$\mathbf{s}''_1$, $\mathbf{s}''_2$ и $\mathbf{s}''_3$:
+\begin{equation}
+    \mathbf{s}''_1 = \frac{\mathbf{r}''_0}{|\mathbf{r}''_0|},\
+    \mathbf{s}''_2 = \frac{\mathbf{r}''_1}{|\mathbf{r}''_1|},\
+    \mathbf{s}''_3 = \mathbf{s}''_1 \times \mathbf{s}''_2.
+\end{equation}
+В балтийской системе координат:
+\begin{equation}
+    \mathbf{s}_{02} = \frac{\mathbf{r}_0 - \mathbf{r}_2}{|\mathbf{r}_0 - \mathbf{r}_2|},\
+    \mathbf{s}_{12} = \frac{\mathbf{r}_1 - \mathbf{r}_2}{|\mathbf{r}_1 - \mathbf{r}_2|},\
+    \mathbf{n}_2 = \mathbf{s}_{02} \times \mathbf{s}_{12}.
+\end{equation}
+Отсюда, матрица поворота определяется следующим образом:
+\begin{equation}
+    \mathbf{R_2} =
+    \left(
+    \begin{matrix}
+        \mathbf{s}''_1 \\
+        \mathbf{s}''_2 \\
+        \mathbf{s}''_3 \\
+    \end{matrix}
+    \right) \times
+    \left(
+    \begin{matrix}
+        \mathbf{s}_{02} \\
+        \mathbf{s}_{12} \\
+        \mathbf{n}_2 \\
+    \end{matrix}
+    \right)^{-1}
+\end{equation}
+
+Углы курса $\psi_1$, $\psi_2$, крена $\mu_1$, $\mu_2$ и тангажа $\vartheta_1$, $\vartheta_2$ находятся
+из матриц $\mathbf{R}_1$ и $\mathbf{R}_2$ в соответствии с~\cite{antennas}.
+
+% и $\mathbf{n}_1$,
+% которые определяются следующим образом:
+% \begin{align*}
+%     \mathbf{r}'_0 =&~\left(x'_0, y'_0, z'_0\right) / |\left(x'_0, y'_0, z'_0\right)|, \\
+%     \mathbf{r}'_2 =&~\left(x'_2, y'_2, z'_2\right) / |\left(x'_0, y'_0, z'_0\right)|, \\
+%     \mathbf{n}_1 =&~\mathbf{r}'_0 \times \mathbf{r}'_2
+% \end{align*}
+
+\newpage
+\begin{thebibliography}{9}
+    \bibitem{antennas}
+    \textit{Виноградов А.Д., Минин Л.А., Морозов Е.Ю., Ушаков С.Н.}
+    Детерминированный подход к решению задачи определения координат и угловой
+    ориентации бортовой пеленгаторной антенны по результатам радиопеленгования
+    радиоориентиров // Информационно-измерительные и управляющие системы, 2019, №1.
+\end{thebibliography}
+
+\end{document}
