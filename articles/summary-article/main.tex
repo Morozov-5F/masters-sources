@@ -48,9 +48,47 @@
 радиоориентиром. Требуется, чтобы НПУ мог определять азимут и угол места двух других радиоориентиров
 и воздушного объекта.
 
-По аналогии с~\cite{antennas}, будем считать, что воздушный объект находится в точке $M_0\left(x, y, z)\right)$,
+По аналогии с~\cite{antennas}, будем считать, что воздушный объект находится в точке $M_0\left(x, y, z\right)$,
 НПУ "--- в $M_1\left(x_1, y_1, z_1\right)$, а $i$-й РО "--- в точке $M_i\left(x_i, y_i, z_i \right)$, $i = 1,2$.
+Азимут и угол места радиоориентира $M_i$, полученные в результате радиопеленгования, обозначим через
+$\beta_i$ и $\theta_i$ соответственно (см. рис.~\ref{figure:pic1}). Предполагается, что измерения этих
+углов проводятся в локальной системе координат НПУ, центр которой совпадает с координатами НПУ в НЗСК, а
+направления осей совпадают с НЗСК.
 
+\begin{figure}[htbp]
+    \begin{center}
+
+    \fbox{\includegraphics{pic1}}
+
+    \caption{Схемы размещения на местности БпЛА, НПУ и РО для реализации ЛУНС}
+    \label{figure:pic1}
+    \end{center}
+\end{figure}
+
+% Здесь слова про углы M_0 M_1 M_j и то, как они получаются. Необходимо еще определить систему
+% координат -- предполагается, что измерения ведутся в локальной СК
+
+По теореме синусов для треугольника $M_1 M_0 M_2$:
+\begin{equation}\label{eq:luns_sin_1}
+    \frac{\ell_2}{\sin\alpha_{02}} = \frac{d_{12}}{\sin\alpha_{12}} = \frac{\ell_1}{\sin\left(\alpha_{12} + \alpha_{02}\right)}.
+\end{equation}
+Аналогично для треугольника $M_1 M_0 M_3$:
+\begin{equation}\label{eq:luns_sin_2}
+    \frac{\ell_3}{\sin\alpha_{03}} = \frac{d_{13}}{\sin\alpha_{13}} = \frac{\ell_1}{\sin\left(\alpha_{13} + \alpha_{03}\right)}.
+\end{equation}
+Таким образом, из~(\ref{eq:luns_sin_1}):
+\begin{equation*}
+    \ell_2 = \frac{d_{12}\sin\alpha_{02}}{\sin\alpha_{12}}.
+\end{equation*}
+В то же время, из~(\ref{eq:luns_sin_2}):
+\begin{equation*}
+    \ell_3 = \frac{d_{13}\sin\alpha_{03}}{\sin\alpha_{13}}.
+\end{equation*}
+Длина $\ell_1$ может быть найдена из любого уравнения:
+\begin{equation*}
+    \ell_1 = \frac{d_{12}\sin\left(\alpha_{12} + \alpha_{02}\right)}{\sin\alpha_{12}} = \frac{d_{13}\sin\left(\alpha_{13} + \alpha_{03}\right)}{\sin\alpha_{13}}.
+\end{equation*}
+Далее пространственные координаты и угловая ориентация БПА определяется согласно~\cite{antennas}.
 
 
 \section{Случай автономной системы}
