@@ -97,8 +97,9 @@ $\beta_i$ и $\theta_i$ соответственно (см. рис.~\ref{figure:
 
 Пусть подвижные объекты находятся в точках $M_1\left(x_1, y_1, z_1\right)$ и $M_2\left(x_2, y_2, z_2\right)$, а
 наземные ориентиры находятся в точках $M_3\left(x_3, y_3, z_3\right)$ и $M_4\left(x_4, y_4, z_4\right)$, а расстояние
-между ними равно $d_{34}$.
-
+между ними равно $d_{34}$. В результате азимутально-угломестной радиопеленгации  $j$-го радиоориентира с  борта
+$i$-го подвижного объекта ($i \ne j$), определяются углы азимута ($\alpha_{ij}$) и угла места ($\varepsilon_{ij}$)
+(см рис.~\ref{figure:pic2}). Пусть также $\ell_ij$ "--- расстояние между $i$-м и $j$-м радиоориентиром.
 
 \begin{figure}[htbp]
     \begin{center}
@@ -110,6 +111,65 @@ $\beta_i$ и $\theta_i$ соответственно (см. рис.~\ref{figure:
     \end{center}
 \end{figure}
 
+Обозначим через $\mathbf{s}_{ij}$ единичные векторы, которые определяются следующим образом:
+\begin{equation}
+    \mathbf{s}_{ij} = \left(\cos\alpha_{ij} \cos\varepsilon_{ij}, \cos\alpha_{ij} \sin\varepsilon_{ij}, \sin\varepsilon_{ij}\right),
+\end{equation}
+где $i \ne j$, $i = 1,2$, $j = 1,2,3,4$. Также обозначим через $\gamma_{ij}$ углы, образованные воздушным объектом $M_1$ и
+радиоориентирами $i$ и $j$ ($i \ne j$), а через $\varphi_{ij}$ "--- углы, образованные воздушным объектом $M_2$ и теми же
+радиоориентирами. В таком случае, косинусы этих углов находятся по формулам:
+\begin{align*}
+    \cos\gamma_{ij} &= \left(\mathbf{s}_{1i}, \mathbf{s}_{1j}\right), i \ne j \ne 1, \\
+    \cos\varphi_{ij} &= \left(\mathbf{s}_{2i}, \mathbf{s}_{2j}\right), i \ne j \ne 2.
+\end{align*}
+
+По теореме синусов для треугольника $M_1 M_2 M_3$:
+\begin{equation}\label{eq:luns_2_sin_1}
+    \frac{\ell_{12}}{\sin{M_1 M_3 M_2}} = \frac{\ell_{13}}{\sin{\varphi_{13}}} = \frac{\ell_{23}}{\sin{\gamma_{13}}}.
+\end{equation}
+Для треугольника $M_1 M_2 M_4$:
+\begin{equation}\label{eq:luns_2_sin_2}
+    \frac{\ell_{12}}{\sin{M_1 M_4 M_2}} = \frac{\ell_{14}}{\sin{\varphi_{14}}} = \frac{\ell_{24}}{\sin{\gamma_{24}}}.
+\end{equation}
+Из (\ref{eq:luns_2_sin_1}) и (\ref{eq:luns_2_sin_2}) получим отношения:
+\begin{align}
+     \frac{\ell_{23}}{\ell_{12}} = \frac{\sin{\gamma_{13}}}{\sin{M_1 M_3 M_2}}, \frac{\ell_{24}}{\ell_{12}} = \frac{\sin{\gamma_{14}}}{\sin{M_1 M_4 M_2}} \label{eq:luns_2_triag_1}\\
+     \frac{\ell_{13}}{\ell_{12}} = \frac{\sin{\varphi_{13}}}{\sin{M_1 M_3 M_2}}, \frac{\ell_{14}}{\ell_{12}} = \frac{\sin{\varphi_{14}}}{\sin{M_1 M_4 M_2}} \label{eq:luns_2_triag_2}.
+\end{align}
+По теореме косинусов для треугольника $M_2 M_4 M_3$:
+\begin{equation}\label{eq:luns_2_cos_1}
+    \ell_{23}^2 + \ell_{24}^2 - 2 \ell_{23} \ell_{24} \cos\varphi_{34} = \ell_{34}^2.
+\end{equation}
+С учетом (\ref{eq:luns_2_triag_1}), (\ref{eq:luns_2_cos_1}) можно переписать в виде:
+\begin{equation}
+    \ell_{12}^2 k_1^2 + \ell_{12}^2 k_2^2 - 2 \ell_{12} \ell_{12} k_1 k_2 \cos\varphi_{34} = \ell_{34}^2,
+\end{equation}
+где $k_1 = \sin\gamma_{13} / \sin{M_1 M_3 M_2}$, а $k_2 = \sin\gamma_{14} / \sin{M_4 M_1 M_2}$.
+Тогда $\ell_{12}$ выражается следующим образом:
+\begin{equation}\label{eq:luns_2_ell_12}
+    \ell_{12} = \frac{\ell_{34}}{\sqrt{k_1^2 + k_2 ^2 - 2 k_1 k_2 \cos\varphi_{34}}}.
+\end{equation}
+С учетом (\ref{eq:luns_2_ell_12}), из (\ref{eq:luns_2_triag_1}) и (\ref{eq:luns_2_triag_2}) находятся
+расстояния $\ell_{13}$, $\ell_{14}$, $\ell_{23}$ и $\ell_{24}$.
+
+Для нахождения координат воздушного объекта $M_i$, введем радиус-вектор $\mathbf{r}_{i3}$, который определяется следующим
+образом:
+\begin{equation}
+    \mathbf{r}_{i3} = \mathbf{s}_{i3} \ell_{i3} = M_3 - M_i.
+\end{equation}
+Отсюда, координаты точки $M_i$ в НЗСК находятся из системы уравнений:
+\begin{equation}
+    \begin{cases}
+        x_i = x_3 - \ell_{i3} \cos\alpha_{i3} \cos\varepsilon_{i3}, \\
+        y_i = y_3 - \ell_{i3} \cos\alpha_{i3} \sin\varepsilon_{i3}, \\
+        z_i = y_3 - \ell_{i3} \sin\varepsilon_{i3}.
+    \end{cases}
+\end{equation}
+Следует заметить, что аналогичные рассуждения справедливы и относительно радиоориентира $M_4$. Совокупность
+расчетов координат относительно обоих наземных радиоориентиров позволяет ввести дополнительный контроль ошибок.
+
+Матрица поворота и угловая ориентация каждого из объектов находится по алгоритму, представленному в работе~\cite{antennas}.
+% Тут я, возможно, немного слукавил, наверное, следует дописать полностью
 
 \section{Случай автономной системы}
 Автономная угломерная радионавигационная система (АУНС) предназначена для определения
