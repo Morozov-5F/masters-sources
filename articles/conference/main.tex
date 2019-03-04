@@ -7,7 +7,7 @@
 \usepackage{cmap}
 \usepackage{amsmath}
 \usepackage{graphicx}
-\graphicspath{ {./pictures/} }
+\graphicspath{ {./images/} }
 
 \usepackage[margin=1in]{geometry}
 
@@ -93,7 +93,100 @@ $\varepsilon_i$. Таким образом, для однозначного оп
 количество вырожденных случаев. Построение эффективных алгоритмов не представляется возможным без понимания данных
 особенностей.
 
-\section{Особенности решения}
+\section{Общий подход к решению задачи при азимутально-угломестном радиопеленговании трех радиоориентиров}
+Пусть три радиоориентира расположены в точках $M_1\left(x_1, y_1, z_1\right)$, $M_2\left(x_2, y_2, z_2\right)$ и
+$M_3\left(x_3, y_3, z_3\right)$ с заданными координатами и находятся не на одной прямой, а ФЦ БПА,
+размещенной на подвижном объекте находится в точке $M_0\left(x, y, z\right)$. В таком случае, эти четыре точки
+образуют в пространстве треугольную пирамиду, схематическое представление которой приведено на рисунке
+\ref{pic:tetrahedron}. Обозначим через $\ell_i$ длину бокового ребра $M_0M_i$, через $d_{ij}$ "--- длину
+ребра основания $M_iM_j$, а через $\alpha_{ij}$ "--- плоский угол $\angle M_iM_0M_j$ при вершине пирамиды.
+Пространственное положение подвижного объекта и радиоориентиров также будем определять с помощью радиус-векторов
+$\mathbf{r}_0 = \left(x, y, z\right)$ и $\mathbf{r}_i = \left(x_i, y_i, z_i\right)$ соответственно.
+
+\begin{figure}[htbp]
+    \begin{center}
+
+    \fbox{\includegraphics[width=0.6\columnwidth]{pic1}}
+
+    \caption{Схема размещения в пространстве трех радиоориентиров и фазового центра БПА}
+    \label{figure:pic1}
+    \end{center}
+\end{figure}
+
+Допустим, что в результате азимутально-угломестного радиопеленгования радиоориентиров с использованием
+БПА определены три пары азимутов $\alpha_{i}$ и углов места $\varepsilon_{i}$. Тогда в связаной системе
+координат БПА можно определить три единичных вектора $\mathbf{s}_{\text{св}i}$ направлений на каждый
+из радиоориентиров следующим образом:
+\begin{equation}\label{eq:vecs}
+    \mathbf{s}_{\text{св}i} = \left(\cos\alpha_i \cos\varepsilon_i, \sin\alpha_i\cos\varepsilon_i, \sin\varepsilon_i\right).
+\end{equation}
+С учетом (\ref{eq:vecs}), косинусы плоских углов $\alpha_{ij}$ равны
+\begin{equation}
+    \cos\alpha_{ij} = \left(\mathbf{s}_{\text{св}i}, \mathbf{s}_{\text{св}j}\right) =
+    \cos\varepsilon_i \cos\varepsilon_j \cos\left(\alpha_i - \alpha_j\right) + \sin\varepsilon_i \sin\varepsilon_j
+\end{equation}
+
+С учетом вышеупомянутых значений, система уравнений для нахождения неизвестных значений длин $\ell_1$, $\ell_2$
+и $\ell_3$ имеет следующий вид:
+\begin{equation} \label{eq:system}
+    \begin{cases}
+    \ell_1^2 + \ell_2^2 - 2 \ell_1 \ell_2 \cos\alpha_{12} = d_{12}^2 \\
+    \ell_1^2 + \ell_2^2 - 2 \ell_1 \ell_2 \cos\alpha_{12} = d_{12}^2 \\
+    \ell_1^2 + \ell_2^2 - 2 \ell_1 \ell_2 \cos\alpha_{12} = d_{12}^2
+    \end{cases}
+\end{equation}
+
+Как показали вычислительные эксперименты, система уравнений (\ref{eq:system}) относительно искомых значений
+$\ell_1$, $\ell_2$ и $\ell_3$ может иметь от одного до четырех решений в каждой из областей пространства, находящихся
+симметрично относительно плоскости расположения трех радиоориентиров. Структура этих решений и правила отбора
+истинного решения будут описаны далее. Предположим, что величины $\ell_1$, $\ell_2$ и $\ell_3$ найдены. В таком
+случае, для неизвестных $x$, $y$ и $z$ точки $M_0\left(x, y, z\right)$ расположения ФЦ БПА получим следующую
+систему из трех уравнений
+\begin{equation}\label{eq:system_coordinates}
+    \begin{cases}
+        \left(x_1 - x\right)^2 + \left(y_1 - y\right)^2 + \left(z_1 - z\right)^2 = \ell_1^2 \\
+        \left(x_2 - x\right)^2 + \left(y_2 - y\right)^2 + \left(z_2 - z\right)^2 = \ell_2^2 \\
+        \left(x_3 - x\right)^2 + \left(y_3 - y\right)^2 + \left(z_3 - z\right)^2 = \ell_3^2
+    \end{cases}
+\end{equation}
+Для решения системы уравнений (\ref{eq:system_coordinates}), вычтем из второго и третьего уравнений первое и перенесем
+члены, связанные с $z$ в правые части уравнений, в результате чего получим линейную относительно $x$ и $y$ систему уравнений:
+\begin{equation}\label{eq:system_linear}
+    \begin{cases}
+        2x \left(x_1 - x_2\right) + 2 y \left(y_1 - y_2\right) =\ell_2^2 - \ell_1^2 + x_1^2 - x_2^2 + y_1^2 - y_2^2 + z_1^2 - z_2^2 - 2z\left(z_1 - z_2\right) \\
+        2x \left(x_1 - x_3\right) + 2 y \left(y_1 - y_3\right) =\ell_3^2 - \ell_1^2 + x_1^2 - x_3^2 + y_1^2 - y_3^2 + z_1^2 - z_3^2 - 2z\left(z_1 - z_3\right)
+    \end{cases}
+\end{equation}
+Выразив, используя правило Крамера, $x$ и $y$ через $z$ из системы (\ref{eq:system_linear}) и подставив полученные выражения в
+(\ref{eq:system_coordinates}), получим квадратное уравнение относительно $z$. Следует заметить, что определитель системы
+(\ref{eq:system_linear}) не равен нулю, так как точки $M_1$, $M_2$ и $M_3$ не лежат на одной прямой.
+
+После нахождения координат точки $M_0$, можно определить три единичных вектора $\mathbf{s}_{\text{н}i}$ направлений на $i$-е радиоориентиры
+в соответствии с соотношением
+\begin{equation*}
+    \mathbf{s}_{\text{н}i} = \frac{\mathbf{r}_0 - \mathbf{r}_1}{|\mathbf{r}_0 - \mathbf{r}_1|}.
+\end{equation*}
+
+Определим квадратную матрицу $\mathbf{S}_{\text{н}}$ из векторов $\mathbf{s}_{\text{н}1}$, $\mathbf{s}_{\text{н}2}$ и $\mathbf{s}_{\text{н}3}$ в
+соответствии с
+\begin{equation*}
+    \mathbf{S}_{\text{н}} = \left(\mathbf{s}_{\text{н}1}^\text{т}, \mathbf{s}_{\text{н}2}^\text{т}, \mathbf{s}_{\text{н}3}^\text{т}\right).
+\end{equation*}
+Также определим квадратную матрицу $\mathbf{S}_{\text{св}}$ из векторов (\ref{eq:vecs}):
+\begin{equation*}
+    \mathbf{S}_{\text{св}} = \left(\mathbf{s}_{\text{св}1}^\text{т}, \mathbf{s}_{\text{св}2}^\text{т}, \mathbf{s}_{\text{св}3}^\text{т}\right).
+\end{equation*}
+В таком случае, квадратные матрицы $\mathbf{S}_{\text{н}}$ и $\mathbf{S}_{\text{св}}$ связаны соотношением
+\begin{equation}\label{eq:matrix}
+    \mathbf{S}_{\text{н}} = \mathbf{\xi}_{\text{св}}^{\text{н}} \times \mathbf{S}_{\text{св}},
+\end{equation}
+где $\mathbf{\xi}_{\text{св}}^{\text{н}}$ "--- квадратная матрица вращения при переходе от связной системы координат к
+нормальной земной системе координат. Таким образом, из (\ref{eq:matrix}) получим явное выражение для матрицы $\mathbf{\xi}_{\text{св}}^{\text{н}}$:
+\begin{equation*}
+    \mathbf{\xi}_{\text{св}}^{\text{н}} = \mathbf{S}_{\text{н}} \times \mathbf{S}_{\text{св}}^{-1},
+\end{equation*}
+где $\mathbf{S}_{\text{св}}^{-1}$ "--- обратная к $\mathbf{S}_{\text{св}}$ матрица. Углы курса $\psi$, крена $\mu$ и
+тангажа $\vartheta$ находятся из матрицы $\mathbf{\xi}_{\text{св}}^{\text{н}}$ стандартным образом.
 
 \section{Заключение}
 
