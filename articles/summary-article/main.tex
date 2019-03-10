@@ -51,9 +51,21 @@
 По аналогии с~\cite{antennas}, будем считать, что воздушный объект находится в точке $M_0\left(x, y, z\right)$,
 НПУ "--- в $M_1\left(x_1, y_1, z_1\right)$, а $i$-й РО "--- в точке $M_i\left(x_i, y_i, z_i \right)$, $i = 1,2$.
 Азимут и угол места радиоориентира $M_i$, полученные в результате радиопеленгования, обозначим через
-$\beta_i$ и $\theta_i$ соответственно (см. рис.~\ref{figure:pic1}). Предполагается, что измерения этих
+$\theta_i$ и $\beta_i$ соответственно (см. рис.~\ref{figure:pic1}). Предполагается, что измерения этих
 углов проводятся в локальной системе координат НПУ, центр которой совпадает с координатами НПУ в НЗСК, а
-направления осей совпадают с НЗСК.
+направления осей совпадают с НЗСК. В этой системе координат можно определить три единичных вектора направлений
+на радиоориентиры $M_0$, $M_2$ и $M_3$:
+\begin{equation*}
+    \mathbf{s}_{\text{лн}i} = \left(\cos\theta_i \cos\beta_i, \sin\theta_i\cos\beta_i, \sin\beta_i\right),
+\end{equation*}
+где $i = 0, 2, 3$. Тогда, косинусы углов $\alpha_{02} = \angle M_0 M_1 M_2$ и $\alpha_{03} = \angle M_0 M_1 M_3$
+определяются как
+\begin{align*}
+    \cos\alpha_{02} = \left(\mathbf{s}_{\text{лн}0}, \mathbf{s}_{\text{лн}2}\right) =
+    \cos\beta_0 \cos\beta_2 \cos\left(\theta_0 - \theta_2\right) + \sin\beta_0 \sin\beta_2, \\
+    \cos\alpha_{03} = \left(\mathbf{s}_{\text{лн}0}, \mathbf{s}_{\text{лн}3}\right) =
+    \cos\beta_0 \cos\beta_3 \cos\left(\theta_0 - \theta_3\right) + \sin\beta_0 \sin\beta_3.
+\end{align*}
 
 \begin{figure}[htbp]
     \begin{center}
@@ -64,9 +76,6 @@ $\beta_i$ и $\theta_i$ соответственно (см. рис.~\ref{figure:
     \label{figure:pic1}
     \end{center}
 \end{figure}
-
-% Здесь слова про углы M_0 M_1 M_j и то, как они получаются. Необходимо еще определить систему
-% координат -- предполагается, что измерения ведутся в локальной СК
 
 По теореме синусов для треугольника $M_1 M_0 M_2$:
 \begin{equation}\label{eq:luns_sin_1}
@@ -220,13 +229,13 @@ $\mathbf{r}_i = \left(x_i, y_i, z_i\right)$, где $i = 1,2,3$.
 \begin{equation}
     \begin{cases}
         x_1 = \rho_1 \cos\theta_1 \cos\beta_1 \\
-        y_1 = \rho_1 \cos\theta_1 \cos\beta_1 \\
+        y_1 = \rho_1 \sin\theta_1 \cos\beta_1 \\
         z_1 = h_1 = \rho_1 \sin\beta_1 \\
         \rho_1 = ~^{z_1}/_{\sin\beta_1}
     \end{cases},
     \begin{cases}
         x_2 = \rho_2 \cos\theta_2 \cos\beta_2 \\
-        y_2 = \rho_2 \cos\theta_2 \cos\beta_2 \\
+        y_2 = \rho_2 \sin\theta_2 \cos\beta_2 \\
         z_2 = h_2 = \rho_2 \sin\beta_2 \\
         \rho_2 = ~^{z_2}/_{\sin\beta_2}
     \end{cases}.
@@ -256,86 +265,100 @@ $\mathbf{r}_i = \left(x_i, y_i, z_i\right)$, где $i = 1,2,3$.
 $\mathbf{r}'_2 = \left(x'_2, y'_2, z'_2\right)$, которые определяют положения радиоориентиров
 $M_0$ и $M_2$ в связанной системе координат $M_1$. Далее, зададим единичные векторы
 $\mathbf{s}'_1$, $\mathbf{s}'_2$ и $\mathbf{s}'_3$ следующим образом:
-\begin{equation}
-    \mathbf{s}'_1 = \frac{\mathbf{r}'_0}{|\mathbf{r}'_0|},\
-    \mathbf{s}'_2 = \frac{\mathbf{r}'_2}{|\mathbf{r}'_2|},\
-    \mathbf{s}'_3 = \mathbf{s}'_1 \times \mathbf{s}'_2.
+\begin{equation}\label{eq:vec_1_local}
+    \begin{split}
+    \mathbf{s}'_1 = \left(s'_{1x}, s'_{1y}, s'_{1z}\right) = &\left(\cos\alpha_{10} \cos\varepsilon_{10}, \sin\alpha_{10}\cos\varepsilon_{10}, \sin\varepsilon_{10}\right),\\
+    \mathbf{s}'_2 = \left(s'_{2x}, s'_{2y}, s'_{2z}\right) = &\left(\cos\alpha_{12} \cos\varepsilon_{12}, \sin\alpha_{12}\cos\varepsilon_{12}, \sin\varepsilon_{12}\right),\\
+    \mathbf{s}'_3 = \mathbf{s}'_1 \times \mathbf{s}'_2 = \left(s'_{3x}, s'_{3y}, s'_{3z}\right) = &\left(\sin\alpha_{12}\cos\varepsilon_{12}\sin\varepsilon_{10} - \sin\alpha_{12}\sin\alpha_{10}\cos\varepsilon_{10},\right.\\
+    &\ \sin\alpha_{10}\cos\varepsilon_{10}\sin\varepsilon_{12} - \cos\alpha_{10}\cos\varepsilon_{12}\sin\varepsilon_{10},\\
+    &\ \left.\sin\left(\alpha_{10} - \alpha_{12}\right)\cos\varepsilon_{10}\cos\varepsilon_{12}\right).
+    \end{split}
 \end{equation}
 Те же вектора в балтийской системе координат:
-\begin{equation}
-    \mathbf{s}_{01} = \frac{\mathbf{r}_0 - \mathbf{r}_1}{|\mathbf{r}_0 - \mathbf{r}_1|},\
-    \mathbf{s}_{21} = \frac{\mathbf{r}_2 - \mathbf{r}_1}{|\mathbf{r}_2 - \mathbf{r}_1|},\
-    \mathbf{n}_1 = \mathbf{s}_{01} \times \mathbf{s}_{21}.
+\begin{equation}\label{eq:vec_1_bsk}
+    \begin{split}
+        \mathbf{s}_{01} &= \left(s_{01x}, s_{01y}, s_{01z}\right) = \frac{\mathbf{r}_0 - \mathbf{r}_1}{|\mathbf{r}_0 - \mathbf{r}_1|},\\
+        \mathbf{s}_{21} &= \left(s_{21x}, s_{21y}, s_{21z}\right) = \frac{\mathbf{r}_2 - \mathbf{r}_1}{|\mathbf{r}_2 - \mathbf{r}_1|},\\
+        \mathbf{n}_1 &= \left(n_{1x}, n_{1y}, n_{1z}\right) = \mathbf{s}_{01} \times \mathbf{s}_{21}.\\
+    \end{split}
+\end{equation}
+Определим квадратную матрицу $\mathbf{S}$ размера $3 \times 3$ координат трех полученных по формуле (\ref{eq:vec_1_bsk}) единичных
+векторов $\mathbf{s}_{01}$, $\mathbf{s}_{21}$ и $\mathbf{n}_{1}$, записав в столбцы, в соответствии с отношением:
+\begin{equation}\label{eq:vec_1_bsk_matrix}
+    \mathbf{S}_1 =
+    \left(
+        \begin{matrix}
+            s_{01x} & s_{01y} & s_{01z} \\
+            s_{21x} & s_{21y} & s_{21z} \\
+            n_{1x} & n_{1y} & n_{1z}
+        \end{matrix}
+    \right).
+\end{equation}
+По аналогии с (\ref{eq:vec_1_bsk_matrix}) определим квадратную матрицу $\mathbf{S}'$ размера $3 \times 3$ координат
+трех полученных по формуле (\ref{eq:vec_1_local}):
+\begin{equation}\label{eq:vec_1_local_matrix}
+    \mathbf{S}' =
+    \left(
+        \begin{matrix}
+            s'_{1x} & s'_{1y} & s'_{1z} \\
+            s'_{2x} & s'_{2y} & s'_{2z} \\
+            s'_{3x} & s'_{3y} & s'_{3z}
+        \end{matrix}
+    \right).
 \end{equation}
 Отсюда получим следующее преобразование координат:
-\begin{equation}
-    \mathbf{R_1} \times
-    \left(
-    \begin{matrix}
-        \mathbf{s}_{01} \\
-        \mathbf{s}_{21} \\
-        \mathbf{n}_1 \\
-    \end{matrix}
-    \right) =
-    \left(
-    \begin{matrix}
-        \mathbf{s}'_1 \\
-        \mathbf{s}'_2 \\
-        \mathbf{s}'_3 \\
-    \end{matrix}
-    \right)
-\end{equation}
+\begin{equation*}
+    \mathbf{R_1} \times \mathbf{S}_1 = \mathbf{S}'
+\end{equation*}
+
 В таком случае, матрицу поворота связанной системы координат $\Sigma_{\text{св}1}$ можно найти следующим образом:
 \begin{equation}
-    \mathbf{R_1} =
-    \left(
-    \begin{matrix}
-        \mathbf{s}'_1 \\
-        \mathbf{s}'_2 \\
-        \mathbf{s}'_3 \\
-    \end{matrix}
-    \right) \times
-    \left(
-    \begin{matrix}
-        \mathbf{s}_{01} \\
-        \mathbf{s}_{21} \\
-        \mathbf{n}_1 \\
-    \end{matrix}
-    \right)^{-1}
+    \mathbf{R_1} = \mathbf{S}' \times \mathbf{S}_1^{-1}
 \end{equation}
 
 По аналогии можно получить матрицу поворота $\mathbf{R}_2$ связанной системы
 координат $M_2$. Вводятся радиус-вектора $\mathbf{r}''_0 = \left(x''_0, y''_0, z''_0\right)$,
 $\mathbf{r}''_1 = \left(x''_1, y''_1, z''_1\right)$, по ним же определяются единичные вектора
 $\mathbf{s}''_1$, $\mathbf{s}''_2$ и $\mathbf{s}''_3$:
-\begin{equation}
-    \mathbf{s}''_1 = \frac{\mathbf{r}''_0}{|\mathbf{r}''_0|},\
-    \mathbf{s}''_2 = \frac{\mathbf{r}''_1}{|\mathbf{r}''_1|},\
-    \mathbf{s}''_3 = \mathbf{s}''_1 \times \mathbf{s}''_2.
+\begin{equation}\label{eq:vec_2_local}
+    \begin{split}
+    \mathbf{s}''_1 = \left(s''_{1x}, s''_{1y}, s''_{1z}\right) =  &\left(\cos\alpha_{20} \cos\varepsilon_{20}, \sin\alpha_{20}\cos\varepsilon_{20}, \sin\varepsilon_{20}\right),\\
+    \mathbf{s}''_2 = \left(s''_{2x}, s''_{2y}, s''_{2z}\right) = &\left(\cos\alpha_{21} \cos\varepsilon_{21}, \sin\alpha_{21}\cos\varepsilon_{21}, \sin\varepsilon_{21}\right),\\
+    \mathbf{s}''_3 = \mathbf{s}''_1 \times \mathbf{s}''_2 = \left(s''_{3x}, s''_{3y}, s''_{3z}\right) =  &\left(\sin\alpha_{21}\cos\varepsilon_{21}\sin\varepsilon_{20} - \sin\alpha_{21}\sin\alpha_{20}\cos\varepsilon_{20},\right.\\
+    &\ \sin\alpha_{20}\cos\varepsilon_{20}\sin\varepsilon_{21} - \cos\alpha_{20}\cos\varepsilon_{21}\sin\varepsilon_{20},\\
+    &\ \left.\sin\left(\alpha_{20} - \alpha_{21}\right)\cos\varepsilon_{20}\cos\varepsilon_{21}\right).
+    \end{split}
 \end{equation}
 В балтийской системе координат:
-\begin{equation}
-    \mathbf{s}_{02} = \frac{\mathbf{r}_0 - \mathbf{r}_2}{|\mathbf{r}_0 - \mathbf{r}_2|},\
-    \mathbf{s}_{12} = \frac{\mathbf{r}_1 - \mathbf{r}_2}{|\mathbf{r}_1 - \mathbf{r}_2|},\
-    \mathbf{n}_2 = \mathbf{s}_{02} \times \mathbf{s}_{12}.
+\begin{equation}\label{eq:vec_2_bsk}
+    \begin{split}
+        \mathbf{s}_{02} &= \left(s_{01x}, s_{01y}, s_{01z}\right) = \frac{\mathbf{r}_0 - \mathbf{r}_2}{|\mathbf{r}_0 - \mathbf{r}_1|},\\
+        \mathbf{s}_{21} &= \left(s_{21x}, s_{21y}, s_{21z}\right) = \frac{\mathbf{r}_2 - \mathbf{r}_1}{|\mathbf{r}_2 - \mathbf{r}_1|},\\
+        \mathbf{n}_1 &= \left(n_{1x}, n_{1y}, n_{1z}\right) = \mathbf{s}_{02} \times \mathbf{s}_{21}.\\
+    \end{split}
+\end{equation}
+Определим квадратные матрицы $\mathbf{S}_2$ и $\mathbf{S}''$ размера $3 \times 3$ по аналогии с (\ref{eq:vec_1_bsk_matrix}) и (\ref{eq:vec_1_local_matrix}):
+\begin{equation}\label{eq:vec_1_bsk_matrix}
+    \mathbf{S}_2 =
+    \left(
+        \begin{matrix}
+            s_{01x} & s_{01y} & s_{01z} \\
+            s_{21x} & s_{21y} & s_{21z} \\
+            n_{1x} & n_{1y} & n_{1z}
+        \end{matrix}
+    \right),
+    \mathbf{S}'' =
+    \left(
+        \begin{matrix}
+            s''_{1x} & s''_{1y} & s''_{1z} \\
+            s''_{2x} & s''_{2y} & s''_{2z} \\
+            s''_{3x} & s''_{3y} & s''_{3z}
+        \end{matrix}
+    \right).
 \end{equation}
 Отсюда, матрица поворота определяется следующим образом:
 \begin{equation}
-    \mathbf{R_2} =
-    \left(
-    \begin{matrix}
-        \mathbf{s}''_1 \\
-        \mathbf{s}''_2 \\
-        \mathbf{s}''_3 \\
-    \end{matrix}
-    \right) \times
-    \left(
-    \begin{matrix}
-        \mathbf{s}_{02} \\
-        \mathbf{s}_{12} \\
-        \mathbf{n}_2 \\
-    \end{matrix}
-    \right)^{-1}
+    \mathbf{R_2} = \mathbf{S}'' \times \mathbf{S}_2^{-1}
 \end{equation}
 
 Углы курса $\psi_1$, $\psi_2$, крена $\mu_1$, $\mu_2$ и тангажа $\vartheta_1$, $\vartheta_2$ находятся
