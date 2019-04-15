@@ -40,3 +40,4 @@ gen### C++ template
 *.out
 *.app
 
+.DS_Store
