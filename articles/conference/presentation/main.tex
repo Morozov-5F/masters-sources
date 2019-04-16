@@ -68,12 +68,13 @@
   \end{frame}
 
   \begin{frame}{Постановка задачи}
-    % TODO: add picture
-    \begin{center}
-      \includegraphics[width=.6\linewidth]{tetrahedron}
+    \begin{figure}
+      \begin{center}
+        \includegraphics[width=.8\textheight]{tetrahedron}
 
-      Схема размещения в пространстве трех радиоориентиров $M_1$, $M_2$ и $M_3$ и подвижного объекта $M_0$
-    \end{center}
+        \caption{Схема размещения в пространстве трех радиоориентиров $M_1$, $M_2$ и $M_3$ и подвижного объекта $M_0$}
+      \end{center}
+    \end{figure}
   \end{frame}
 
   \begin{frame}{Схема решения}
@@ -149,6 +150,7 @@
     существенно упрощается.
   \end{frame}
 
+  \section{Заключение}
   \begin{frame}{Оценка погрешностей}
     Осложняется следующими факторами:
     \begin{itemize}
@@ -223,5 +225,27 @@
         \end{center}
       \end{column}
     \end{columns}
+  \end{frame}
+
+  \begin{frame}{Геометрическая интерпретация решений}
+    Рассмотрим треугольник, образованный двумя РО ($M_i$, $M_j$) и подвижным объектом $M_0$.
+
+    Так как известен угол $\angle M_i M_0 M_j$, точка $M_0$ может лежать на окружности с хордой $M_i$ $M_j$.
+
+    Геометрическое место точек, в которых может находится $M_0$ при заданных $\ell_{i}$, $\ell_{j}$ и
+    $\angle M_i M_0 M_j$ образуется вращением этой окружности вокруг хорды $M_i$ и $M_j$, образуя \textit{закрытый тор}.
+
+    Пересечение трех закрытых торов, полученных для каждой из сторон, является истинным положением
+    воздушного объекта.
+  \end{frame}
+
+  \begin{frame}{Геометрическая интерпретация решений}
+    \begin{center}
+      \begin{figure}
+        \includegraphics[height=.7\textheight]{torus}
+        \caption{Закрытый тор, иллюстрирующий области возможного нахождения подвижного объекта $M_0$
+        относительно ребра $M_1M_2$.}
+      \end{figure}
+    \end{center}
   \end{frame}
 \end{document}
