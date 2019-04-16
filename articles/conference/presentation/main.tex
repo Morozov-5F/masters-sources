@@ -1,10 +1,11 @@
 %!TEX TS-program = xelatex
 %!TEX encoding = UTF-8 Unicode
 \documentclass[russian,hyperref={unicode}]{beamer}
-% Other packages
-\usepackage{amsmath, amssymb, amsthm}
-% \usepackage{beamerthemesplit} // Activate for custom appearance
-
+% Other packages (for math and grahics)
+\usepackage{amsmath, amssymb, graphicx}
+\graphicspath{{./images/}}
+% Exclude backup slides from numbering
+\usepackage{appendixnumberbeamer}
 % Theme selection
 \usetheme[sectionpage=none, numbering=fraction]{metropolis}
 % Locale packages
@@ -69,7 +70,9 @@
   \begin{frame}{Постановка задачи}
     % TODO: add picture
     \begin{center}
-      Image placeholder
+      \includegraphics[width=.6\linewidth]{tetrahedron}
+
+      Схема размещения в пространстве трех радиоориентиров $M_1$, $M_2$ и $M_3$ и подвижного объекта $M_1$
     \end{center}
   \end{frame}
 
@@ -159,4 +162,21 @@
   \end{frame}
 
   \frame{\titlepage}
+
+  \appendix
+  \begin{frame}{Визуализация решений, полученных на первом этапе}
+    \begin{columns}[c]
+      \begin{column}{.5\textwidth}
+        \begin{itemize}
+          \item В основании "--- равносторонний стреугольник
+          \item Аппарат изначально находился в центре
+          \item Фиолетовым цветом выделены зоны с одним решением
+          \item Оранжевым "--- зоны с несколькими решениями
+        \end{itemize}
+      \end{column}
+      \begin{column}{.5\textwidth}
+        \includegraphics[width=\columnwidth]{tetrahedron-regular}
+      \end{column}
+    \end{columns}
+  \end{frame}
 \end{document}
