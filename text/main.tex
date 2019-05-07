@@ -1,0 +1,169 @@
+% XeLaTeX can use any Mac OS X font. See the setromanfont command below.
+% Input to XeLaTeX is full Unicode, so Unicode characters can be typed directly into the source.
+
+% The next lines tell TeXShop to typeset with xelatex, and to open and save the source with Unicode encoding.
+
+%!TEX TS-program = xelatex
+%!TEX encoding = UTF-8 Unicode
+\documentclass[a4paper,14pt]{extarticle}
+\usepackage{geometry}
+\geometry{a4paper}                   % ... or a4paper or a5paper or ...
+%\geometry{landscape}                % Activate for for rotated page geometry
+\setlength{\parindent}{15mm}
+%\renewcommand{\baselinestretch}{1.5}
+\usepackage{graphicx}
+\graphicspath{{./img/}}
+\usepackage{amsmath, amssymb, amsthm, mathtools}
+\newtheorem{proposal}{Предложение}
+\newtheorem{theorem}{Теорема}
+\usepackage{fontspec,xltxtra,xunicode}
+\usepackage{csquotes}
+\usepackage{tocloft}
+\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
+%\defaultfontfeatures{Ligatures=TeX}
+\makeatletter
+\newcommand\thefontsize[1]{{#1 The current font size is: \f@size pt\par}}
+\makeatother
+\usepackage[titletoc, title]{appendix}
+\renewcommand{\appendixtocname}{Приложения}
+\renewcommand{\appendixname}{Приложение}
+
+\defaultfontfeatures{Mapping=tex-text}
+\setmainfont{Times New Roman}
+%\setmainfont{CMU Serif}
+\newfontfamily{\cyrillicfontsf}{Arial}
+\setsansfont{Helvetica}
+\newfontfamily{\cyrillicfonttt}{Courier New}
+\setmonofont{Courier New}
+%\setmonofont{CMU Typewriter Text}
+\usepackage{newtxmath}
+
+\usepackage{polyglossia}
+\setmainlanguage{russian}
+\setotherlanguage{english}
+\setkeys{russian}{babelshorthands=true}
+
+\newcommand{\sectionbreak}{\clearpage}
+\usepackage{titlesec}
+\usepackage{indentfirst}
+\usepackage{setspace}
+\onehalfspacing
+\usepackage{titlesec}
+
+\titleformat{\section}[block]{\normalsize\bfseries\centering}{\thesection}{1ex}{}
+\titleformat{\subsection}[block]{\normalsize\bfseries}{\thesubsection}{1ex}{}
+
+\usepackage{listings}
+\lstset{
+language=[5.2]Mathematica,
+morekeywords={Solve, Evaluate, Function, Print},
+breaklines=true,
+extendedchars=\true,
+inputencoding=utf8,
+tabsize=2,
+escapeinside={\%}{\%},
+basicstyle=\small\ttfamily,
+keywordstyle=\textbf,
+texcl=true,
+}
+\addto\captionsrussian{\def\refname{Список использованных источников}}
+\renewcommand{\thepage}{{\normalsize\textrm{\upshape\arabic{page}}}}
+\usepackage{csquotes}
+\numberwithin{equation}{section}
+\usepackage{subfiles}
+
+\newcommand{\RN}[1]{%
+  \textup{\uppercase\expandafter{\romannumeral#1}}%
+}
+
+\makeatletter
+\renewcommand\@biblabel[1]{#1}
+\makeatother
+
+\usepackage[lastpage,user]{zref}
+\usepackage{totcount}
+\newtotcounter{citnum} %From the package documentation
+\def\oldbibitem{} \let\oldbibitem=\bibitem
+\def\bibitem{\stepcounter{citnum}\oldbibitem}
+
+\usepackage{tocloft}
+
+\cftsetindents{section}{0em}{2em}
+\cftsetindents{subsection}{0em}{2em}
+
+\renewcommand\cfttoctitlefont{\hfill\normalsize\bfseries}
+\renewcommand\cftaftertoctitle{\hfill\mbox{}}
+
+\usepackage{array}
+\newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
+
+\newtotcounter{totalappendices}
+
+\begin{document}
+
+\newgeometry{left=3cm, right=1cm, top=2cm, bottom=2cm}
+
+\begin{titlepage}
+\subfile{sections/titlepage}
+\end{titlepage}
+\newgeometry{left=2cm, right=1cm, top=2cm, bottom=2cm}
+%% ЗАДАНИЕ НА ВЫПОЛНЕНИЕ
+\newpage\thispagestyle{empty}
+\addtocounter{page}{1}
+\subfile{sections/useless_page}
+
+%% РЕФЕРАТ
+\newgeometry{top=15mm, left=30mm, right=15mm, bottom=20mm}
+\subfile{sections/abstract}
+\tableofcontents
+%\maketitle
+
+%% ВВЕДЕНИЕ
+\addcontentsline{toc}{section}{Введение}
+\section*{\centering Введение}
+\subfile{sections/introduction}
+
+%%% ТЕОРЕТИЧЕСКАЯ ЧАСТЬ
+\section{Обзор существующих алгоритмов}
+\subfile{sections/first_chapter}
+
+%%% ПОСТАНОВКА ЗАДАЧИ
+\section{Постановка задачи}
+\subfile{sections/second_chapter}
+
+%%% ЭКСПЕРИМЕНТАЛЬНАЯ ЧАСТЬ
+\section{Локальные навигационные системы}
+\subfile{sections/third_chapter}
+
+%%% Обсуждение результатов
+\section{Обсуждение результатов}
+\subfile{sections/fourth_chapter}
+
+%%% ЗАКЛЮЧЕНИЕ
+\section*{\centering Заключение}
+\addcontentsline{toc}{section}{Заключение}
+\subfile{sections/conclusion}
+
+%%% СПИСОК ЛИТЕРАТУРЫ
+\newpage
+\addcontentsline{toc}{section}{Список использованных источников}
+\bibliography{../bib_files/bibliography}
+\bibliographystyle{ugost2003}
+
+%%% ПРИЛОЖЕНИЕ
+\begin{appendices}
+\renewcommand{\thesection}{\Asbuk{section}}
+\titleformat{\section}[display]
+    {\normalfont\bfseries}{\addtocounter{totalappendices}{1}\appendixname\enspace\centering\thesection}{.5em}{}
+\addtocontents{toc}{\protect\setcounter{tocdepth}{1}}
+
+\section{Определение систем координат согласно ГОСТ}
+\subfile{sections/appendix_one}
+
+\section{Листинг программы}
+\subfile{sections/appendix_two}
+
+
+\end{appendices}
+
+\end{document}
