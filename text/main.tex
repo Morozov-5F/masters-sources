@@ -12,15 +12,13 @@
 \setlength{\parindent}{15mm}
 %\renewcommand{\baselinestretch}{1.5}
 \usepackage{graphicx}
-\graphicspath{{./img/}}
-\usepackage{amsmath, amssymb, amsthm, mathtools}
+\graphicspath{{./images/}}
+\usepackage{amsmath, amssymb, mathtools}
 \newtheorem{proposal}{Предложение}
 \newtheorem{theorem}{Теорема}
-\usepackage{fontspec,xltxtra,xunicode}
+\usepackage{fontspec,xltxtra,xunicode,unicode-math}
 \usepackage{csquotes}
-\usepackage{tocloft}
-\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
-%\defaultfontfeatures{Ligatures=TeX}
+% \defaultfontfeatures{Ligatures=TeX}
 \makeatletter
 \newcommand\thefontsize[1]{{#1 The current font size is: \f@size pt\par}}
 \makeatother
@@ -28,18 +26,17 @@
 \renewcommand{\appendixtocname}{Приложения}
 \renewcommand{\appendixname}{Приложение}
 
-\defaultfontfeatures{Mapping=tex-text}
+\defaultfontfeatures{Ligatures={TeX},Renderer=Basic} 
+\newfontfamily{\cyrillicfont}{Times New Roman}
 \setmainfont{Times New Roman}
-%\setmainfont{CMU Serif}
 \newfontfamily{\cyrillicfontsf}{Arial}
-\setsansfont{Helvetica}
+\setsansfont{Arial}
 \newfontfamily{\cyrillicfonttt}{Courier New}
 \setmonofont{Courier New}
-%\setmonofont{CMU Typewriter Text}
-\usepackage{newtxmath}
+\setmathfont{STIX Math}
 
 \usepackage{polyglossia}
-\setmainlanguage{russian}
+\setmainlanguage[spelling=modern]{russian}
 \setotherlanguage{english}
 \setkeys{russian}{babelshorthands=true}
 
@@ -48,7 +45,6 @@
 \usepackage{indentfirst}
 \usepackage{setspace}
 \onehalfspacing
-\usepackage{titlesec}
 
 \titleformat{\section}[block]{\normalsize\bfseries\centering}{\thesection}{1ex}{}
 \titleformat{\subsection}[block]{\normalsize\bfseries}{\thesubsection}{1ex}{}
@@ -72,6 +68,7 @@ texcl=true,
 \numberwithin{equation}{section}
 \usepackage{subfiles}
 
+% Command to make a roman number
 \newcommand{\RN}[1]{%
   \textup{\uppercase\expandafter{\romannumeral#1}}%
 }
@@ -87,7 +84,7 @@ texcl=true,
 \def\bibitem{\stepcounter{citnum}\oldbibitem}
 
 \usepackage{tocloft}
-
+\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
 \cftsetindents{section}{0em}{2em}
 \cftsetindents{subsection}{0em}{2em}
 
