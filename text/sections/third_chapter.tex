@@ -5,6 +5,10 @@
 которые позволяют определять координаты и угловую ориентацию подвижных
 объектов.
 
+%
+% TODO: Привести в соответствие с первой статьей
+% 
+%
 \subsection{Локальная угломерная навигационная система первого типа}
 Пусть три радиоориентира расположены в точках $M_1\left(x_1, y_1, z_1\right)$, $M_2\left(x_2, y_2, z_2\right)$ и
 $M_3\left(x_3, y_3, z_3\right)$ с заданными координатами и находятся не на одной прямой, а ФЦ БПА,
@@ -157,7 +161,6 @@ $\theta_i$ и $\beta_i$ соответственно (см. рис.~\ref{figure:
     \begin{center}
 
     \fbox{\includegraphics[width=0.8\columnwidth]{pic3-2}}
-
 
     \caption{Схемы размещения на местности БпЛА, НПУ и РО для реализации ЛУНС}
     \label{figure:pic1}
@@ -450,6 +453,125 @@ $\mathbf{s}''_1$, $\mathbf{s}''_2$ и $\mathbf{s}''_3$:
 
 Углы курса $\psi_1$, $\psi_2$, крена $\mu_1$, $\mu_2$ и тангажа $\vartheta_1$, $\vartheta_2$ находятся
 из матриц $\mathbf{R}_1$ и $\mathbf{R}_2$ в соответствии с~\cite{antennas}.
+
+%
+%
+% TODO: Привести в соответствие с финальной версией статьи
+%
+\subsection{Влияние подстилающей поверхности на точность измерений}
+Рассматривается трехэлементная вертикальная система датчиков с расстоянием $\Delta h$  между соседними элементами. Предполагается, что принимаемый сигнал формируется как суперпозиция двух плоских электромагнитных волн одинаковой частоты. Первая из них, приходящая от регистрируемого источника, имеет амплитуду $E_0$ и фазу на среднем элементе $\varphi _0$. Вторая представляет отраженную от поверхности Земли волну с амплитудой $E_1$ и фазой на среднем элементе $\varphi _1$. Соответствующие комплексные компоненты принимаемого сигнала задаются формулами
+\begin{equation*}
+  \dot{E}_0=E_0 e^{i\varphi _0}, \; \dot{E}_1=E_1 e^{i\varphi _1}.
+\end{equation*}
+
+Пусть $\beta_0$ "--- угол отклонения волны источника от горизонта (считаем, что источник находится выше датчиков), $\beta_1$ "--- угол отклонения отраженной волны от горизонта (отражение происходит ниже датчиков), $\lambda$ "--- длина волны приходящего сигнала. Введем следующие обозначения:
+\begin{equation}\label{eq:w_0_w_1}
+  \omega_0= \frac{2\pi}{\lambda} \Delta h \sin \beta_0, \;
+  \omega_1= \frac{2\pi}{\lambda} \Delta h \sin \beta_1.
+\end{equation}
+Тогда для комплексных сигналов $\dot{z}_0, \dot{z}_{\hbox{н}}, \dot{z}_{\hbox{в}}$, регистрируемых на среднем, нижнем и верхнем датчиках, соответственно, справедливы следующие соотношения
+\begin{equation} \label{eq:0_down_up}
+  \begin{cases}
+    \dot{z}_0  = \dot{E}_0 + \dot{E}_1 \\
+    \dot{z}_\text{н} = \dot{E}_0 e^{-i\omega_0} + \dot{E}_1 e^{i\omega_1} \\
+    \dot{z}_\text{в} = \dot{E}_0 e^{i\omega_0} + \dot{E}_1 e^{-i\omega_1}
+  \end{cases}
+\end{equation}
+Требуется по заданным величинам $\dot{z}_0, \dot{z}_{\hbox{н}}, \dot{z}_{\hbox{в}}$ определить угол $\beta_0$.
+
+Система \eqref{eq:0_down_up} содержит три комплексных уравнения относительно шести неизвестных вещественных величин $\beta_0$, $\beta_1$, $E_0$, $E_1$, $\varphi_0$, $\varphi_1$ и является нелинейной. Выбор данной модели обусловлен тем, что удается аналитически исключить из этой системы все переменные кроме $\omega_0$, которая включает, согласно \eqref{eq:w_0_w_1}, интересующую нас величину $\beta_0$.
+
+\subsubsection{Решение системы}
+Для исключения $\dot{E}_0$ умножим второе уравнение \eqref{eq:0_down_up} на $e^{i\omega_0}$, третье уравнение "--- на $e^{-i\omega_0}$. Тогда
+\begin{equation*}
+  \begin{cases}
+    \dot{z}_0 = \dot{E}_0 + \dot{E}_1 \\
+    \dot{z}_\text{н} e^{ i\omega_0} = \dot{E}_0 + \dot{E}_1 e^{ i \left(\omega_1 + \omega_0 \right)} \\
+    \dot{z}_\text{в} e^{-i\omega_0} = \dot{E}_0 + \dot{E}_1 e^{-i \left(\omega_1 + \omega_0\right)}
+  \end{cases}
+\end{equation*}
+Вычитая первое уравнение полученной системы из второго и третьего уравнений, приходим к системе двух комплексных уравнений
+\begin{equation*}
+  \begin{cases}
+    \dot{z}_\text{н} e^{ i\omega_0} - \dot{z}_0 = \dot{E}_1 \left( e^{ i\left(\omega_1 + \omega_0 \right)} - 1\right) \\
+    \dot{z}_\text{в} e^{-i\omega_0} - \dot{z}_0 = \dot{E}_1 \left( e^{-i\left(\omega_1 + \omega_0 \right)} - 1 \right)
+  \end{cases}
+\end{equation*}
+Для исключения $\dot{E}_1$ домножим второе уравнение на $e^{i \left(\omega_1 + \omega_0 \right)}$ и сложим с первым:
+\begin{equation*}
+    \dot{z}_\text{н} e^{i\omega_0} - \dot{z}_0 + \left(\dot{z}_\text{в} e^{-i\omega_0} - \dot{z}_0 \right) e^{i \left(\omega_1 + \omega_0 \right)} = 0.
+\end{equation*}
+Таким образом,
+\begin{equation*}
+   \dot{z}_\text{н} e^{i\omega_0} - \dot{z}_0 = -\left(\dot{z}_\text{в} e^{-i\omega_0} - \dot{z}_0 \right) e^{i\left(\omega_1+\omega_0\right)}.
+\end{equation*}
+Осталось исключить $\omega_1$, для чего достаточно взять модуль от левой и правой частей последнего равенства
+\begin{equation} \label{eq:w_0}
+   \left|\dot{z}_\text{н} e^{i\omega_0} - \dot{z}_0 \right| = \left|\dot{z}_\text{в} e^{-i\omega_0} - \dot{z}_0\right|.
+\end{equation}
+Аналогичное соотношение получается и для $\omega_1$:
+\begin{equation} \label{eq:w_1}
+   \left|\dot{z}_\text{н} e^{-i\omega_1} - \dot{z}_0 \right| = \left|\dot{z}_\text{в} e^{i\omega_1} - \dot{z}_0 \right|.
+\end{equation}
+
+\subsubsection{Анализ разрешимости уравнения относительно $\beta_0$}
+
+Запишем уравнение \eqref {w_0} в следующем виде
+\begin {equation*}
+   |\dot{z}_{\hbox{н}}e^{i\omega_0} -  \dot{z}_0 |^2 =
+   |\dot{z}_{\hbox{в}}e^{-i\omega_0} - \dot{z}_0 |^2.
+\end {equation*}
+Воспользовавшись тем, что $|\dot{z}|^2=\dot{z} \dot{z}^*$,  где $\dot{z}^*$ означает комплексное сопряжение, придем к равенству
+\begin {equation*}
+   (\dot{z}_{\hbox{н}}e^{i\omega_0} -  \dot{z}_0 )
+   (\dot{z}_{\hbox{н}}e^{i\omega_0} -  \dot{z}_0 )^* =
+   (\dot{z}_{\hbox{в}}e^{-i\omega_0} - \dot{z}_0 )
+   (\dot{z}_{\hbox{в}}e^{-i\omega_0} - \dot{z}_0 )^*.
+\end {equation*}
+Раскрывая скобки, получим
+\begin {equation*}
+   |\dot{z}_{\hbox{н}}|^2 - \dot{z}_{\hbox{н}} \dot{z}_{0}^*e^{i\omega_0}
+    - \dot{z}_{\hbox{н}}^* \dot{z}_{0}e^{-i\omega_0} + |\dot{z}_{0}|^2=
+\end {equation*}
+\begin {equation*}
+   = |\dot{z}_{\hbox{в}}|^2 - \dot{z}_{\hbox{в}} \dot{z}_{0}^*e^{-i\omega_0}
+    - \dot{z}_{\hbox{в}}^* \dot{z}_{0}e^{i\omega_0} + |\dot{z}_{0}|^2.
+\end {equation*}
+Перегруппируем слагаемые:
+\begin {equation*}
+    (\dot{z}_{\hbox{в}}^* \dot{z}_{0} - \dot{z}_{\hbox{н}} \dot{z}_{0}^* ) e^{i\omega_0} +
+    (\dot{z}_{\hbox{в}} \dot{z}_{0}^* - \dot{z}_{\hbox{н}}^* \dot{z}_{0} ) e^{-i\omega_0}  = |\dot{z}_{\hbox{в}}|^2 - |\dot{z}_{\hbox{н}}|^2.
+\end {equation*}
+Обозначим
+\begin {equation}
+    \dot{z}_{\hbox{в}}^* \dot{z}_{0} - \dot{z}_{\hbox{н}} \dot{z}_{0}^* = u - iv.
+  \label {A_alpha}
+\end {equation}
+Тогда $ \dot{z}_{\hbox{в}} \dot{z}_{0}^* - \dot{z}_{\hbox{н}}^* \dot{z}_{0} = u + iv$,
+\begin {equation*}
+    (u-iv)(\cos {\omega_0}+i\sin {\omega_0}) + (u+iv)(\cos {\omega_0}-i\sin {\omega_0}) = |\dot{z}_{\hbox{в}}|^2 - |\dot{z}_{\hbox{н}}|^2.
+\end {equation*}
+Соответственно,
+\begin {equation}
+    u \cos \omega_0 + v \sin \omega_0 =
+    \frac {|\dot{z}_{\hbox{в}}|^2 - |\dot{z}_{\hbox{н}}|^2} {2}=c.
+  \label {u_v_omega_0}
+\end {equation}
+
+Условие разрешимости уравнения \eqref {u_v_omega_0} может быть записано в следующем виде
+\begin {equation}
+    u^2+v^2\geq c^2.
+  \label {c_good}
+\end {equation}
+Для решения \eqref {u_v_omega_0} перейдем к половинному углу
+\begin {equation*}
+    u \left (\cos^2 \frac {\omega_0} {2} - \sin^2 \frac {\omega_0} {2} \right ) + 2v \sin \frac {\omega_0} {2} \cos \frac {\omega_0} {2}  = c \left (\cos^2 \frac {\omega_0} {2} + \sin^2 \frac {\omega_0} {2} \right)
+\end {equation*}
+и перегруппируем слагаемые
+\begin {equation*}
+    (u-c) \cos^2 \frac {\omega_0} {2}  + 2v \sin \frac {\omega_0} {2} \cos \frac {\omega_0} {2}  - (u+c) \sin^2 \frac {\omega_0} {2} = 0 .
+\end {equation*}
+Если $|u-c|>|u+c|$, то делим данное уравнение на $\sin^2 \frac {\omega_0} {2}$, в противном случае делим на $\cos^2 \frac {\omega_0} {2}$. Получается квадратное уравнение относительно $ctg \frac {\omega_0} {2}$ в первом случае или $tg \frac {\omega_0} {2}$ во втором случае с неотрицательным в силу \eqref {c_good} дискриминантом.
 
 
 \end{document}
