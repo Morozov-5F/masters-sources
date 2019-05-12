@@ -1,31 +1,42 @@
 % XeLaTeX can use any Mac OS X font. See the setromanfont command below.
 % Input to XeLaTeX is full Unicode, so Unicode characters can be typed directly into the source.
-
 % The next lines tell TeXShop to typeset with xelatex, and to open and save the source with Unicode encoding.
-
 %!TEX TS-program = xelatex
 %!TEX encoding = UTF-8 Unicode
-\documentclass[a4paper,14pt]{extarticle}
+\documentclass[russian,a4paper,14pt]{extarticle}
 \usepackage{geometry}
 \geometry{a4paper}                   % ... or a4paper or a5paper or ...
-%\geometry{landscape}                % Activate for for rotated page geometry
 \setlength{\parindent}{15mm}
 %\renewcommand{\baselinestretch}{1.5}
 \usepackage{graphicx}
 \graphicspath{{./images/}}
 \usepackage{amsmath, amssymb, mathtools}
-\newtheorem{proposal}{Предложение}
-\newtheorem{theorem}{Теорема}
 \usepackage{fontspec,xltxtra,xunicode,unicode-math}
 \usepackage{csquotes}
 % \defaultfontfeatures{Ligatures=TeX}
 \makeatletter
 \newcommand\thefontsize[1]{{#1 The current font size is: \f@size pt\par}}
 \makeatother
+
+% Declare russian tangent and cotangent abbreviations
+\DeclareMathOperator{\tg}{\text{tg}}
+\DeclareMathOperator{\arctg}{\text{arctg}}
+\DeclareMathOperator{\ctg}{\text{ctg}}
+\DeclareMathOperator{\arcctg}{\text{arcctg}}
+
+% Inline fractions
+\usepackage{xfrac, nicefrac}
+\newcommand*\rfrac[2]{{}^{#1}\!/_{#2}}
+
+% Package with SI units
+\usepackage{siunitx}
+\DeclareSIUnit\deciBells{дБ}
+
 \usepackage[titletoc, title]{appendix}
 \renewcommand{\appendixtocname}{Приложения}
 \renewcommand{\appendixname}{Приложение}
 
+% Fonts setup
 \defaultfontfeatures{Ligatures={TeX},Renderer=Basic} 
 \newfontfamily{\cyrillicfont}{Times New Roman}
 \setmainfont{Times New Roman}
@@ -35,12 +46,14 @@
 \setmonofont{Courier New}
 \setmathfont{STIX Math}
 
+% XeLaTeX uses polyglossia package instead of Babel
 \usepackage{polyglossia}
 \setmainlanguage[spelling=modern]{russian}
 \setotherlanguage{english}
 \setkeys{russian}{babelshorthands=true}
 
-\newcommand{\sectionbreak}{\clearpage}
+% Setup sections
+\newcommand{\sectionbreak}{\clearpage} % Start every section from new page
 \usepackage{titlesec}
 \usepackage{indentfirst}
 \usepackage{setspace}
@@ -49,6 +62,7 @@
 \titleformat{\section}[block]{\normalsize\bfseries\centering}{\thesection}{1ex}{}
 \titleformat{\subsection}[block]{\normalsize\bfseries}{\thesubsection}{1ex}{}
 
+% Prepare listings for Mathematica
 \usepackage{listings}
 \lstset{
 language=[5.2]Mathematica,
@@ -65,8 +79,8 @@ texcl=true,
 \addto\captionsrussian{\def\refname{Список использованных источников}}
 \renewcommand{\thepage}{{\normalsize\textrm{\upshape\arabic{page}}}}
 \usepackage{csquotes}
-\numberwithin{equation}{section}
 \usepackage{subfiles}
+\numberwithin{equation}{section}
 
 % Command to make a roman number
 \newcommand{\RN}[1]{%

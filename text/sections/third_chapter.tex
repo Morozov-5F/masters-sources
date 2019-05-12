@@ -499,79 +499,98 @@ $\mathbf{s}''_1$, $\mathbf{s}''_2$ и $\mathbf{s}''_3$:
 \end{equation*}
 Для исключения $\dot{E}_1$ домножим второе уравнение на $e^{i \left(\omega_1 + \omega_0 \right)}$ и сложим с первым:
 \begin{equation*}
-    \dot{z}_\text{н} e^{i\omega_0} - \dot{z}_0 + \left(\dot{z}_\text{в} e^{-i\omega_0} - \dot{z}_0 \right) e^{i \left(\omega_1 + \omega_0 \right)} = 0.
+  \dot{z}_\text{н} e^{i\omega_0} - \dot{z}_0 + \left(\dot{z}_\text{в} e^{-i\omega_0} - \dot{z}_0 \right) e^{i \left(\omega_1 + \omega_0 \right)} = 0.
 \end{equation*}
 Таким образом,
 \begin{equation*}
-   \dot{z}_\text{н} e^{i\omega_0} - \dot{z}_0 = -\left(\dot{z}_\text{в} e^{-i\omega_0} - \dot{z}_0 \right) e^{i\left(\omega_1+\omega_0\right)}.
+  \dot{z}_\text{н} e^{i\omega_0} - \dot{z}_0 = -\left(\dot{z}_\text{в} e^{-i\omega_0} - \dot{z}_0 \right) e^{i\left(\omega_1+\omega_0\right)}.
 \end{equation*}
 Осталось исключить $\omega_1$, для чего достаточно взять модуль от левой и правой частей последнего равенства
 \begin{equation} \label{eq:w_0}
-   \left|\dot{z}_\text{н} e^{i\omega_0} - \dot{z}_0 \right| = \left|\dot{z}_\text{в} e^{-i\omega_0} - \dot{z}_0\right|.
+  \left|\dot{z}_\text{н} e^{i\omega_0} - \dot{z}_0 \right| = \left|\dot{z}_\text{в} e^{-i\omega_0} - \dot{z}_0\right|.
 \end{equation}
 Аналогичное соотношение получается и для $\omega_1$:
 \begin{equation} \label{eq:w_1}
-   \left|\dot{z}_\text{н} e^{-i\omega_1} - \dot{z}_0 \right| = \left|\dot{z}_\text{в} e^{i\omega_1} - \dot{z}_0 \right|.
+  \left|\dot{z}_\text{н} e^{-i\omega_1} - \dot{z}_0 \right| = \left|\dot{z}_\text{в} e^{i\omega_1} - \dot{z}_0 \right|.
 \end{equation}
 
 \subsubsection{Анализ разрешимости уравнения относительно $\beta_0$}
 
-Запишем уравнение \eqref {w_0} в следующем виде
-\begin {equation*}
-   |\dot{z}_{\hbox{н}}e^{i\omega_0} -  \dot{z}_0 |^2 =
-   |\dot{z}_{\hbox{в}}e^{-i\omega_0} - \dot{z}_0 |^2.
-\end {equation*}
-Воспользовавшись тем, что $|\dot{z}|^2=\dot{z} \dot{z}^*$,  где $\dot{z}^*$ означает комплексное сопряжение, придем к равенству
-\begin {equation*}
-   (\dot{z}_{\hbox{н}}e^{i\omega_0} -  \dot{z}_0 )
-   (\dot{z}_{\hbox{н}}e^{i\omega_0} -  \dot{z}_0 )^* =
-   (\dot{z}_{\hbox{в}}e^{-i\omega_0} - \dot{z}_0 )
-   (\dot{z}_{\hbox{в}}e^{-i\omega_0} - \dot{z}_0 )^*.
-\end {equation*}
+Запишем уравнение \eqref{eq:w_0} в следующем виде
+\begin{equation*}
+  \left|\dot{z}_\text{н} e^{ i \omega_0} - \dot{z}_0 \right|^2 =
+  \left|\dot{z}_\text{в} e^{-i \omega_0} - \dot{z}_0 \right|^2.
+\end{equation*}
+Воспользовавшись тем, что $\left|\dot{z}\right|^2= \dot{z} \dot{z}^*$, где $\dot{z}^*$ означает комплексное сопряжение, придем к равенству
+\begin{equation*}
+  \left(\dot{z}_\text{н} e^{ i\omega_0} - \dot{z}_0 \right) \left(\dot{z}_\text{н} e^{ i\omega_0} - \dot{z}_0 \right)^* = \left(\dot{z}_\text{в} e^{-i\omega_0} - \dot{z}_0 \right) \left(\dot{z}_\text{в} e^{-i\omega_0} - \dot{z}_0 \right)^*.
+\end{equation*}
 Раскрывая скобки, получим
-\begin {equation*}
-   |\dot{z}_{\hbox{н}}|^2 - \dot{z}_{\hbox{н}} \dot{z}_{0}^*e^{i\omega_0}
-    - \dot{z}_{\hbox{н}}^* \dot{z}_{0}e^{-i\omega_0} + |\dot{z}_{0}|^2=
-\end {equation*}
-\begin {equation*}
-   = |\dot{z}_{\hbox{в}}|^2 - \dot{z}_{\hbox{в}} \dot{z}_{0}^*e^{-i\omega_0}
-    - \dot{z}_{\hbox{в}}^* \dot{z}_{0}e^{i\omega_0} + |\dot{z}_{0}|^2.
-\end {equation*}
+\begin{equation*}
+  \left|\dot{z}_\text{н}\right|^2 - \dot{z}_\text{н} \dot{z}_{0}^* e^{ i\omega_0} \dot{z}_\text{н}^* \dot{z}_{0} e^{-i\omega_0} + \left|\dot{z}_{0}\right|^2 =
+  \left|\dot{z}_\text{в} \right|^2 - \dot{z}_\text{в} \dot{z}_{0}^* e^{-i\omega_0} - \dot{z}_\text{в}^* \dot{z}_{0} e^{i\omega_0} + \left|\dot{z}_{0}\right|^2.
+\end{equation*}
 Перегруппируем слагаемые:
-\begin {equation*}
-    (\dot{z}_{\hbox{в}}^* \dot{z}_{0} - \dot{z}_{\hbox{н}} \dot{z}_{0}^* ) e^{i\omega_0} +
-    (\dot{z}_{\hbox{в}} \dot{z}_{0}^* - \dot{z}_{\hbox{н}}^* \dot{z}_{0} ) e^{-i\omega_0}  = |\dot{z}_{\hbox{в}}|^2 - |\dot{z}_{\hbox{н}}|^2.
-\end {equation*}
+\begin{equation*}
+  \left(\dot{z}_\text{в}^* \dot{z}_{0} - \dot{z}_\text{н} \dot{z}_{0}^* \right) e^{ i\omega_0} + \left(\dot{z}_\text{в} \dot{z}_{0}^* - \dot{z}_\text{н}^* \dot{z}_{0} \right) e^{-i\omega_0} = \left|\dot{z}_\text{в}\right|^2 - \left|\dot{z}_\text{н}\right|^2.
+\end{equation*}
 Обозначим
-\begin {equation}
-    \dot{z}_{\hbox{в}}^* \dot{z}_{0} - \dot{z}_{\hbox{н}} \dot{z}_{0}^* = u - iv.
-  \label {A_alpha}
-\end {equation}
-Тогда $ \dot{z}_{\hbox{в}} \dot{z}_{0}^* - \dot{z}_{\hbox{н}}^* \dot{z}_{0} = u + iv$,
-\begin {equation*}
-    (u-iv)(\cos {\omega_0}+i\sin {\omega_0}) + (u+iv)(\cos {\omega_0}-i\sin {\omega_0}) = |\dot{z}_{\hbox{в}}|^2 - |\dot{z}_{\hbox{н}}|^2.
-\end {equation*}
+\begin{equation} \label{eq:u_v}
+  \dot{z}_\text{в}^* \dot{z}_{0} - \dot{z}_\text{н} \dot{z}_{0}^* = u - iv.
+\end{equation}
+Тогда $\dot{z}_\text{в} \dot{z}_{0}^* - \dot{z}_\text{н}^* \dot{z}_{0} = u + iv$, и
+\begin{equation*}
+  \left(u - iv\right) \left(\cos\omega_0 + i \sin\omega_0\right) + \left(u + iv\right) \left(\cos\omega_0 - i \sin\omega_0\right) = \left|\dot{z}_\text{в}\right|^2 - \left|\dot{z}_\text{н}\right|^2.
+\end{equation*}
 Соответственно,
-\begin {equation}
-    u \cos \omega_0 + v \sin \omega_0 =
-    \frac {|\dot{z}_{\hbox{в}}|^2 - |\dot{z}_{\hbox{н}}|^2} {2}=c.
-  \label {u_v_omega_0}
-\end {equation}
+\begin{equation} \label{eq:u_v_omega_0}
+  u \cos\omega_0 + v \sin\omega_0 =
+  \frac{ \left|\dot{z}_\text{в}\right|^2 - \left|\dot{z}_\text{н}\right|^2} {2}=c.
+\end{equation}
 
-Условие разрешимости уравнения \eqref {u_v_omega_0} может быть записано в следующем виде
-\begin {equation}
-    u^2+v^2\geq c^2.
-  \label {c_good}
-\end {equation}
-Для решения \eqref {u_v_omega_0} перейдем к половинному углу
-\begin {equation*}
-    u \left (\cos^2 \frac {\omega_0} {2} - \sin^2 \frac {\omega_0} {2} \right ) + 2v \sin \frac {\omega_0} {2} \cos \frac {\omega_0} {2}  = c \left (\cos^2 \frac {\omega_0} {2} + \sin^2 \frac {\omega_0} {2} \right)
-\end {equation*}
+Условие разрешимости уравнения \eqref{eq:u_v_omega_0} может быть записано в следующем виде
+\begin{equation} \label{eq:c_good}
+  u^2 + v^2 \geq c^2.
+\end{equation}
+Для решения \eqref{eq:u_v_omega_0} перейдем к половинному углу
+\begin{equation*}
+  u \left( \cos^2\frac{\omega_0}{2} - \sin^2\frac{\omega_0}{2} \right) + 2v \sin\frac{\omega_0}{2} \cos\frac{\omega_0}{2} = 
+  c \left(\cos^2\frac{\omega_0}{2} + \sin^2\frac{\omega_0}{2} \right)
+\end{equation*}
 и перегруппируем слагаемые
-\begin {equation*}
-    (u-c) \cos^2 \frac {\omega_0} {2}  + 2v \sin \frac {\omega_0} {2} \cos \frac {\omega_0} {2}  - (u+c) \sin^2 \frac {\omega_0} {2} = 0 .
-\end {equation*}
-Если $|u-c|>|u+c|$, то делим данное уравнение на $\sin^2 \frac {\omega_0} {2}$, в противном случае делим на $\cos^2 \frac {\omega_0} {2}$. Получается квадратное уравнение относительно $ctg \frac {\omega_0} {2}$ в первом случае или $tg \frac {\omega_0} {2}$ во втором случае с неотрицательным в силу \eqref {c_good} дискриминантом.
+\begin{equation*}
+  \left(u - c\right) \cos^2\frac{\omega_0}{2} + 2v \sin\frac{\omega_0}{2} \cos\frac{\omega_0}{2} - \left(u + c\right) \sin^2\frac{\omega_0}{2} = 0.
+\end{equation*}
+Если $\left|u - c\right| > \left|u + c\right|$, то делим данное уравнение на $\sin^2 \sfrac{\omega_0}{2}$, в противном случае делим на $\cos^2 \sfrac{\omega_0}{2}$. В первом случае получается квадратное уравнение относительно $\ctg \sfrac{\omega_0}{2}$:
+\begin{equation*}
+    \left(u - c\right) \ctg^2 \frac{\omega_0}{2} + 2v \ctg\frac{\omega_0}{2} - \left(u + c\right) = 0,
+\end{equation*}
+во втором случае "--- относительно $\tg \frac{\omega_0}{2}$:
+\begin{equation*}
+    \left(u + c\right) \tg^2 \frac{\omega_0}{2} - 2v \tg \frac{\omega_0}{2} - \left(u - c\right) = 0.
+\end{equation*}
+Дискриминант для обоих уравнений равен $4\left(u^2 + v^2 - c^2\right)$ и в силу \eqref{eq:c_good} неотрицателен.
 
+Поскольку $\beta_0 > \ang{0}$, то и $\omega_0 > 0$, а из ограничений сверху на параметры рассматриваемой модели $\beta_0 \leq \ang{15}$ и $ \Delta h^{}/\lambda \leq 3.5$ следует, что $\omega_0 < 2 \pi $. Соответственно, $0 < \rfrac{\omega_0}{2} < \pi$. Пусть, например, $t_1$, $t_2$ "--- корни квадратного уравнения относительно $\tg \rfrac{\omega_0}{2}$. Если оба корня положительные, то выбираем меньший из них $t_1$. Тогда
+\begin{equation*}
+  \omega_0 = 2 \arctg t_1, \; \beta_0 = \arcsin \frac{\omega_0 \lambda} {2\pi \Delta h}.
+\end{equation*}
+Если корни разных знаков, то выбираем положительный. Если оба корня отрицательные, то выбираем больший по модулю $t_1$ и полагаем $\omega_0 = 2\left( \arctg t_1 + \pi\right)$. В случае кратного корня делаем то же самое, только не требуется выбирать один из двух корней.
+Несколько проще случай уравнения относительно $\ctg\rfrac{\omega_0}{2}$. Из двух возможных значений корней выбирается больший.
+
+Возможен и численный метод решения уравнения \eqref{eq:u_v_omega_0}, например, метод половинного деления. В качестве начального отрезка для $\beta_0$ выбирается отрезок $[\ang{0}, \ang{15}]$, для середины отрезка вычисляется  $\omega_0$ по формуле \eqref{eq:w_0_w_1} и отрезок сужается вдвое. Количество итераций определяется поставленной точностью вычислений. Подводя итог, можно сказать, что для решения исходной задачи определения угла $\beta_0$ надо по заданным входным данным $\dot{z}_\text{в}$, $\dot{z}_{0}$, $\dot{z}_\text{н}$ определить согласно формуле \eqref{eq:u_v} вспомогательные величины $u$, $v$ и решить аналитически или численно тригонометрическое уравнение \eqref{eq:u_v_omega_0}.
+
+\subsubsection{Статистический анализ погрешности}
+Наличие явного метода решения системы существенно облегчает анализ погрешности. Стандартным образом возмущаются входные данные $\dot{z}_\text{в}$, $\dot{z}_{о}$ и $\dot{z}_\text{н}$ с заданным отношением сигнал/шум (ОСШ) $q$, решается полученная система и вычисляется среднеквадратичная ошибка $\sigma_\beta$ определения угла $\beta_0$.
+
+Возмущения исходных значений сигналов на каждой из антенн производилось путем добавления к ним некоторой случайной величины, распределенной по нормальному закону с нулевым математическим ожиданием и дисперсией, соответствующей заданному ОСШ. Устойчивость предложенного метода определения угла $\beta_0$ оценивалась при значении ОСШ $q = \SI{20}{\deciBells}$. Также при оценке рассматривался идеальный случай, в котором влияние шума пренебрежимо мало, т.е. ОСШ $q = \SI{100}{\deciBells}$. На рис. 2 приведены графики зависимостей СКО $\sigma_\beta$ от определяемого угла $\beta_0$
+.
+Также была произведена оценка зависимости СКО от уровня взаимного влияния между антеннами $\Delta h^{}/\lambda$. На рис. 3 приведены графики этих зависимостей при различных значениях углов $\beta_0$ и значений параметров принятых сигналов.
+
+С помощью моделирования было так же выяснено, что при увеличении ОСШ кривая угловых зависимостей СКО приобретает ярко выраженный L-образный характер, т.е. погрешность резко убывает при определенном значении определяемого угла $\beta_0$. Рис. 4 показывает характер этой зависимости при ОСШ $q = \SI{30}{\deciBells}$.
+
+Главное отличие от модели, предложенной в [ВГМНП], состоит в том, что система содержит шесть неизвестных вещественных переменных, а не пять, и поэтому не является переопределенной. Соответственно, нет областей изменения параметров, в которых система несовместна. Сложности, как и следовало ожидать, начинаются при стремлении $\beta_0$ к нулю "--- в этом случае все три коэффициента $u$, $v$ и $c$ уравнения \eqref{eq:u_v_omega_0} становятся малыми, и преобразования, связанные с делением на эти величины, являются неустойчивыми.
+
+Из приведенных в статье графиков среднеквадратичных погрешностей (рис. 2 и 3) можно сделать следующий вывод: если $\beta_0$ имеет величину порядка $\ang{1}$ "--- $\ang{3}$, то погрешность становится больше самой определяемой величины, т.е. вычисления с практической точки зрения бесполезны. Существенным оказывается и соотношение углов $\beta_0$ и $\beta_1$. С увеличением разности между ними растет и погрешность. Большая разность между этими углами возможна в том случае, когда объект пеленгации находится слишком близко к датчикам. Достаточно важным параметром является разность фаз $\Delta \varphi$ – если пришедшие сигналы приходят в фазе или противофазе, то предложенная модель оказывается неэффективной. Это объясняется тем, что величины $\dot{z}_\text{в}$ и $\dot{z}_\text{н}$ становятся слишком близки друг к другу и критерий разрешимости \eqref{eq:c_good} нарушается для большинства значений $\beta_0$.
 
 \end{document}
