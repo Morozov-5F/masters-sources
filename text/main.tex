@@ -8,10 +8,18 @@
 \geometry{a4paper}                   % ... or a4paper or a5paper or ...
 \setlength{\parindent}{15mm}
 %\renewcommand{\baselinestretch}{1.5}
+% Images setup
 \usepackage{graphicx}
+\usepackage{tocloft}
+\usepackage{subfig}
 \graphicspath{{./images/}}
+\renewcommand{\thefigure}{\arabic{section}.\arabic{figure}}
+\renewcommand{\thesubfigure}{\asbuk{subfigure}}
+\captionsetup[subfigure]{labelformat=empty}
+\captionsetup[figure]{labelfont=bf}
+
 \usepackage{amsmath, amssymb, mathtools}
-\usepackage{fontspec,xltxtra,xunicode,unicode-math}
+\usepackage{fontspec, xltxtra, xunicode, unicode-math}
 \usepackage{csquotes}
 % \defaultfontfeatures{Ligatures=TeX}
 \makeatletter
@@ -97,7 +105,6 @@ texcl=true,
 \def\oldbibitem{} \let\oldbibitem=\bibitem
 \def\bibitem{\stepcounter{citnum}\oldbibitem}
 
-\usepackage{tocloft}
 \renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
 \cftsetindents{section}{0em}{2em}
 \cftsetindents{subsection}{0em}{2em}
