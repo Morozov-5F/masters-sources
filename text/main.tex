@@ -19,7 +19,7 @@
 \captionsetup[figure]{labelfont=bf}
 
 \usepackage{amsmath, amssymb, mathtools}
-\usepackage{fontspec, xltxtra, xunicode, unicode-math}
+\usepackage{fontspec, xltxtra, xunicode}
 \usepackage{csquotes}
 % \defaultfontfeatures{Ligatures=TeX}
 \makeatletter
@@ -49,6 +49,7 @@
 \renewcommand{\appendixname}{Приложение}
 
 % Fonts setup
+\usepackage{unicode-math}
 \defaultfontfeatures{Ligatures={TeX},Renderer=Basic}
 \newfontfamily{\cyrillicfont}{Times New Roman}
 \setmainfont{Times New Roman}
@@ -57,6 +58,7 @@
 \newfontfamily{\cyrillicfonttt}{Courier New}
 \setmonofont{Courier New}
 \setmathfont{STIX Two Math}
+% \usepackage{newtxmath}
 
 % XeLaTeX uses polyglossia package instead of Babel
 \usepackage{polyglossia}
