@@ -8,9 +8,20 @@
 \geometry{a4paper}                   % ... or a4paper or a5paper or ...
 \setlength{\parindent}{15mm}
 %\renewcommand{\baselinestretch}{1.5}
+\usepackage{amsmath, amssymb, mathtools, amsthm}
+\usepackage{csquotes}
+
+\usepackage{tocloft}
+\usepackage{ifxetex}
+
+\ifxetex
+  \usepackage{preamble_xelatex}
+\else
+  \usepackage{preamble_latex}
+\fi
+
 % Images setup
 \usepackage{graphicx}
-\usepackage{tocloft}
 \usepackage{subfig}
 \graphicspath{{./images/}}
 \renewcommand{\thefigure}{\arabic{section}.\arabic{figure}}
@@ -18,19 +29,6 @@
 \captionsetup[subfigure]{labelformat=empty}
 \captionsetup[figure]{labelfont=bf}
 
-\usepackage{amsmath, amssymb, mathtools}
-\usepackage{fontspec, xltxtra, xunicode}
-\usepackage{csquotes}
-% \defaultfontfeatures{Ligatures=TeX}
-\makeatletter
-\newcommand\thefontsize[1]{{#1 The current font size is: \f@size pt\par}}
-\makeatother
-
-% Declare russian tangent and cotangent abbreviations
-\DeclareMathOperator{\tg}{\text{tg}}
-\DeclareMathOperator{\arctg}{\text{arctg}}
-\DeclareMathOperator{\ctg}{\text{ctg}}
-\DeclareMathOperator{\arcctg}{\text{arcctg}}
 
 % Typesetting
 \usepackage{microtype} % Microtypography
@@ -48,24 +46,6 @@
 \renewcommand{\appendixtocname}{Приложения}
 \renewcommand{\appendixname}{Приложение}
 
-% Fonts setup
-\usepackage{unicode-math}
-\defaultfontfeatures{Ligatures={TeX},Renderer=Basic}
-\newfontfamily{\cyrillicfont}{Times New Roman}
-\setmainfont{Times New Roman}
-\newfontfamily{\cyrillicfontsf}{Arial}
-\setsansfont{Arial}
-\newfontfamily{\cyrillicfonttt}{Courier New}
-\setmonofont{Courier New}
-\setmathfont{STIX Two Math}
-% \usepackage{newtxmath}
-
-% XeLaTeX uses polyglossia package instead of Babel
-\usepackage{polyglossia}
-\setmainlanguage[spelling=modern]{russian}
-\setotherlanguage{english}
-\setkeys{russian}{babelshorthands=true}
-
 % Setup sections
 \newcommand{\sectionbreak}{\clearpage} % Start every section from new page
 \usepackage{titlesec}
@@ -78,18 +58,31 @@
 
 % Prepare listings for Mathematica
 \usepackage{listings}
-\lstset{
-language=[5.2]Mathematica,
-morekeywords={Solve, Evaluate, Function, Print},
-breaklines=true,
-extendedchars=\true,
-inputencoding=utf8,
-tabsize=2,
-escapeinside={\%}{\%},
-basicstyle=\small\ttfamily,
-keywordstyle=\textbf,
-texcl=true,
+\lstdefinestyle{wolfram_mathematica}{
+  language=[5.2]Mathematica,
+  morekeywords={Solve, Evaluate, Function, Print, Flatten, Line, Point, Purple, Blue, LightOrange, Orange, Red, Magenta, ComposeFaces, PlotFigure, PlotPointsColored, AssignColorsToPoints, ExtractApex, SolveForThree, SolveForFour4, SolveForFour6, },
+  breaklines=true,
+  extendedchars=\true,
+  inputencoding=utf8,
+  tabsize=2,
+  escapeinside={\%}{\%},
+  basicstyle=\small\ttfamily,
+  keywordstyle=\textbf,
+  texcl=true,
 }
+\lstdefinestyle{custom_cpp}{
+  language=C++,
+  % morekeywords={},
+  breaklines=true,
+  extendedchars=\true,
+  inputencoding=utf8,
+  tabsize=2,
+  escapeinside={\%}{\%},
+  basicstyle=\small\ttfamily,
+  keywordstyle=\textbf,
+  texcl=true,
+}
+
 \addto\captionsrussian{\def\refname{Список использованных источников}}
 \renewcommand{\thepage}{{\normalsize\textrm{\upshape\arabic{page}}}}
 \usepackage{csquotes}
@@ -181,12 +174,11 @@ texcl=true,
     {\normalfont\bfseries}{\addtocounter{totalappendices}{1}\appendixname\enspace\centering\thesection}{.5em}{}
 \addtocontents{toc}{\protect\setcounter{tocdepth}{1}}
 
-\section{Определение систем координат согласно ГОСТ}
+\section{Определения систем координат}
 \subfile{sections/appendix_one}
 
-\section{Листинг программы}
+\section{Листинг программы для моделирования простейшей ЛНС}
 \subfile{sections/appendix_two}
-
 
 \end{appendices}
 
