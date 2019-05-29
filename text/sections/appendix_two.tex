@@ -2,249 +2,243 @@
 \documentclass[../main.tex]{subfiles}
 
 \begin{document}
+\lstset{style=wolfram_mathematica}
 
 В данном приложении представлен листинги процедур, реализующие этапы представленного в пункте 3 алгоритма решения задачи. Для написания программ использовался язык {\ttfamily Wolfram Language}.
 
-\subsection{Основные функции}
+\subsection{Вспомогательные функции}
+Функции в этом разделе используются в основном для подготовки входных параметров и представления данных.
 \begin{lstlisting}
-  ComposeFaces[foundation_, apex_] := Module[{foundationPairs, points},
-  foundationPairs =
-   Append[Partition[foundation, 2, 1], {Last@foundation,
-     First@foundation}];
+ComposeFaces[foundation_, apex_] := Module[{foundationPairs,
+                                            points},
+  foundationPairs = Append[Partition[foundation, 2, 1],
+                            { Last[foundation],
+                              First[foundation] }];
   points = Prepend[#, apex] & /@ foundationPairs;
   points
-  ]
+]
 
 PlotFigure[foundation_, apex_] := Module[{apexLow},
-  (* We assume that all verices are already sorted.
-  We can sort polygon in case of a
-  convex shape, but it's not possible to do so otherwise *)
+  (* We assume that all verices are already sorted. We can sort polygon in case of a convex shape, but it's not possible to do so otherwise *)
 
   apexLow = Flatten@{apex[[1 ;; 2]], 0};
-  Graphics3D[{EdgeForm[Thick], FaceForm[Opacity[0.9]],
-    Polygon /@ ComposeFaces[foundation, apex], Point /@ foundation,
-    Point@apex,
-    Point@apexLow, {Thickness[0.007], Line@{apex, apexLow}}},
-   Axes -> True, AxesLabel -> {"x", "y", "z"}, FaceGrids -> All]
-  ]
+  Graphics3D[{ EdgeForm@Thick, FaceForm@Opacity[0.9],
+                Polygon /@ ComposeFaces[foundation, apex],
+                Point /@ foundation, Point@apex, Point@apexLow,
+                {Thickness[0.007], Line[{apex, apexLow}]} },
+              Axes -> True, AxesLabel -> {"x", "y", "z"},
+              FaceGrids -> All]
+]
 
-PlotPointsColored[foundation_, points_] :=
- Module[{colors, colorsByLen, geomPoints, coloredPoints},
-  colors = {1 -> Purple, 2 -> Blue, 3 -> LightOrange, 4 -> Orange,
-    5 -> Red, 6 -> Magenta};
+PlotPointsColored[foundation_, points_] := Module[{colors, colorsByLen, geomPoints, coloredPoints},
+  colors = {1 -> Purple, 2 -> Blue, 3 -> LightOrange,
+            4 -> Orange, 5 -> Red, 6 -> Magenta};
   coloredPoints = AssignColorsToPoints[points, colors];
-  Row@{Graphics3D[{{EdgeForm[Directive[Thick, Green]], Transparent,
-       Polygon[foundation]}, coloredPoints}, Axes -> True,
-     AxesLabel -> {"x", "y", "z"}, FaceGrids -> All],
-    Graphics3D[{{EdgeForm[Directive[Thick, Green]], Transparent,
-       Polygon[foundation]}, coloredPoints}, Axes -> True,
-     AxesLabel -> {"x", "y", "z"}, FaceGrids -> All,
-     ViewPoint -> {0, 0, \[Infinity]}]}
+
+  Row[
+    Graphics3D[{{EdgeForm[Directive[Thick, Green]], Transparent, Polygon[foundation]}, coloredPoints}, Axes -> True, AxesLabel -> {"x", "y", "z"}, FaceGrids -> All],
+    Graphics3D[{{EdgeForm[Directive[Thick, Green]], Transparent, Polygon[foundation]}, coloredPoints}, Axes -> True, AxesLabel -> {"x", "y", "z"}, FaceGrids -> All, ViewPoint -> {0, 0, \[Infinity]}]}
   ]
+]
 
 AssignColorsToPoints[points_, colors_] :=
- Module[{colorsByLen, geomPoints, coloredPoints},
+                Module[{colorsByLen, geomPoints, coloredPoints},
   colorsByLen = Length /@ points /. colors;
   geomPoints = Map[Point, points, {2}];
-  coloredPoints =
-   Table[{colorsByLen[[i]], geomPoints[[i]]}, {i, Length@points}];
+  coloredPoints = Table[{colorsByLen[[i]], geomPoints[[i]]},
+                        {i, Length@points}];
   coloredPoints
-  ]
+]
 
 ExtractApex[foundation_, sides_, startEq_:  0, endEq_: 0] :=
- Module[{system, point, start, end},
+                Module[{system, point, start, end},
   If [endEq == 0, end = Length@foundation];
-  If[startEq == 0, start = 1];
-  system =
-   Table[(foundation[[i, 1]] - x)^2 + (foundation[[i, 2]] -
-         y)^2 + (foundation[[i, 3]] - z)^2 == Subscript[l, i]^2, {i,
-      start, end}] /. sides;
+  If [startEq == 0, start = 1];
+  system = Table[(foundation[[i, 1]] - x)^2 +
+                  (foundation[[i, 2]] - y)^2 +
+                  (foundation[[i, 3]] - z)^2 == Subscript[l, i]^2,
+                  {i, start, end}] /. sides;
   system = Append[system, z >= 0];
   point = NSolve[system, {x, y, z}];
   point
-  ]
+]
+\end{lstlisting}
 
+\subsection{Основные функции}
+Функции, представленные в этом разделе, являются реализацией алгоритма, представленного в разделе 3. В частности, функция {\ttfamily SolveForThree} решает задачу для трех наземных источников, а функции {\ttfamily SolveForFour4} и {\ttfamily SolveForFour6} "--- для четырех, но используя различные подходы.
+
+\begin{lstlisting}
 SolveForThree[triangle_, apex_] :=
- Module[{system, \[Alpha], d, ll, solution},
+                Module[{system, \[Alpha], d, ll, solution},
+
   (* Prepare foundation distances *)
+  Subscript[d, 1, 2] = SquaredEuclideanDistance[triangle[[1]],
+                                                triangle[[2]]];
+  Subscript[d, 2, 3] = SquaredEuclideanDistance[triangle[[2]],
+                                                triangle[[3]]];
+  Subscript[d, 3, 1] = SquaredEuclideanDistance[triangle[[3]],
+                                                triangle[[1]]];
 
-  Subscript[d, 1, 2] =
-   SquaredEuclideanDistance[triangle[[1]], triangle[[2]]];
-  Subscript[d, 2, 3] =
-   SquaredEuclideanDistance[triangle[[2]], triangle[[3]]];
-  Subscript[d, 3, 1] =
-   SquaredEuclideanDistance[triangle[[3]], triangle[[1]]];
   (* Prepare distances to vertex *)
+  ll = Table[SquaredEuclideanDistance[triangle[[i]], apex],
+                                      {i, 3}];
 
-  ll = Table[SquaredEuclideanDistance[triangle[[i]], apex], {i, 3}];
   (* Calculate flat angles *)
+  Subscript[\[Alpha], 1, 2] =
+    -(Subscript[d, 1, 2] - ll[[1]] - ll[[2]]) /
+        (2 * Sqrt[ll[[1]]] * Sqrt[ll[[2]]]);
+  Subscript[\[Alpha], 2, 3] =
+    -(Subscript[d, 2, 3] - ll[[2]] - ll[[3]]) /
+        (2 * Sqrt[ll[[2]]] * Sqrt[ll[[3]]]);
+  Subscript[\[Alpha], 3, 1] =
+    -(Subscript[d, 3, 1] - ll[[3]] - ll[[1]]) /
+        (2 * Sqrt[ll[[3]]] * Sqrt[ll[[1]]]);
 
-  Subscript[\[Alpha], 1,
-   2] = -((Subscript[d, 1, 2] - ll[[1]] - ll[[2]])/(
-    2*Sqrt@ll[[1]]*Sqrt@ll[[2]]));
-  Subscript[\[Alpha], 2,
-   3] = -((Subscript[d, 2, 3] - ll[[2]] - ll[[3]])/(
-    2*Sqrt@ll[[2]]*Sqrt@ll[[3]]));
-  Subscript[\[Alpha], 3,
-   1] = -((Subscript[d, 3, 1] - ll[[3]] - ll[[1]])/(
-    2*Sqrt@ll[[3]]*Sqrt@ll[[1]]));
   system = {
     Subscript[l, 1]^2 + Subscript[l, 2]^2 -
-      2 * Subscript[l, 1] * Subscript[l, 2]*Subscript[\[Alpha], 1,
-       2] == Subscript[d, 1, 2],
+      2 * Subscript[l, 1] * Subscript[l, 2] *
+        Subscript[\[Alpha], 1, 2] == Subscript[d, 1, 2],
     Subscript[l, 2]^2 + Subscript[l, 3]^2 -
-      2 * Subscript[l, 2] * Subscript[l, 3]*Subscript[\[Alpha], 2,
-       3] == Subscript[d, 2, 3],
+      2 * Subscript[l, 2] * Subscript[l, 3] *
+        Subscript[\[Alpha], 2, 3] == Subscript[d, 2, 3],
     Subscript[l, 3]^2 + Subscript[l, 1]^2 -
-      2 * Subscript[l, 3] * Subscript[l, 1]*Subscript[\[Alpha], 3,
-       1] == Subscript[d, 3, 1],
-    Subscript[l, 1] >= 0, Subscript[l, 2] >= 0, Subscript[l, 3] >= 0
-    };
-  solution =
-   NSolve[system, {Subscript[l, 1], Subscript[l, 2], Subscript[l,
-     3]}, Reals, Method -> "Newton"];
-  Flatten[{x, y, z} /. # & /@ ExtractApex[triangle, #] & /@ solution,
-   1]
-  ]
+      2 * Subscript[l, 3] * Subscript[l, 1] *
+        Subscript[\[Alpha], 3, 1] == Subscript[d, 3, 1],
+    Subscript[l, 1] >= 0,
+    Subscript[l, 2] >= 0,
+    Subscript[l, 3] >= 0
+  };
+  solution = NSolve[system, { Subscript[l, 1],
+                              Subscript[l, 2],
+                              Subscript[l, 3]},
+                              Reals, Method -> "Newton"];
+  Flatten[{x, y, z} /. # & /@ ExtractApex[triangle, #] & /@ solution, 1]
+]
 
 SolveForFour4[quad_, apex_, prevRoot_: {}] :=
- Module[{system, \[Alpha], d, ll, solution, sol13, sol24},
+    Module[{system, \[Alpha], d, ll, solution, sol13, sol24},
   (* Prepare foundation distances *)
 
-  Subscript[d, 1, 2] =
-   SquaredEuclideanDistance[quad[[1]], quad[[2]]];
-  Subscript[d, 2, 3] =
-   SquaredEuclideanDistance[quad[[2]], quad[[3]]];
-  Subscript[d, 3, 4] =
-   SquaredEuclideanDistance[quad[[3]], quad[[4]]];
-  Subscript[d, 4, 1] =
-   SquaredEuclideanDistance[quad[[4]], quad[[1]]];
+  Subscript[d, 1, 2] = SquaredEuclideanDistance[quad[[1]],
+                                                quad[[2]]];
+  Subscript[d, 2, 3] = SquaredEuclideanDistance[quad[[2]],
+                                                quad[[3]]];
+  Subscript[d, 3, 4] = SquaredEuclideanDistance[quad[[3]],
+                                                quad[[4]]];
+  Subscript[d, 4, 1] = SquaredEuclideanDistance[quad[[4]],
+                                                quad[[1]]];
+
   (* Prepare distances to vertex *)
-
   ll = Table[SquaredEuclideanDistance[quad[[i]], apex], {i, 4}];
-  (* Calculate flat angles *)
 
-  Subscript[\[Alpha], 1,
-   2] = -((Subscript[d, 1, 2] - ll[[1]] - ll[[2]])/(
-    2*Sqrt@ll[[1]]*Sqrt@ll[[2]]));
-  Subscript[\[Alpha], 2,
-   3] = -((Subscript[d, 2, 3] - ll[[2]] - ll[[3]])/(
-    2*Sqrt@ll[[2]]*Sqrt@ll[[3]]));
-  Subscript[\[Alpha], 3,
-   4] = -((Subscript[d, 3, 4] - ll[[3]] - ll[[4]])/(
-    2*Sqrt@ll[[3]]*Sqrt@ll[[4]]));
-  Subscript[\[Alpha], 4,
-   1] = -((Subscript[d, 4, 1] - ll[[4]] - ll[[1]])/(
-    2*Sqrt@ll[[4]]*Sqrt@ll[[1]]));
+  (* Calculate flat angles *)
+  Subscript[\[Alpha], 1, 2] =
+    -(Subscript[d, 1, 2] - ll[[1]] - ll[[2]]) /
+      (2 * Sqrt[ll[[1]]] * Sqrt[ll[[2]]]);
+  Subscript[\[Alpha], 2, 3] =
+    -(Subscript[d, 2, 3] - ll[[2]] - ll[[3]]) /
+      (2 * Sqrt[ll[[2]]] * Sqrt[ll[[3]]]);
+  Subscript[\[Alpha], 3, 4] =
+    -(Subscript[d, 3, 4] - ll[[3]] - ll[[4]]) /
+      (2 * Sqrt[ll[[3]]] * Sqrt[ll[[4]]]);
+  Subscript[\[Alpha], 4, 1] =
+    -(Subscript[d, 4, 1] - ll[[4]] - ll[[1]]) /
+      (2 * Sqrt[ll[[4]]] * Sqrt[ll[[1]]]);
 
   system = {
     Subscript[l, 1]^2 + Subscript[l, 2]^2 -
-      2 * Subscript[l, 1] * Subscript[l, 2]*Subscript[\[Alpha], 1,
-       2] == Subscript[d, 1, 2],
+      2 * Subscript[l, 1] * Subscript[l, 2] * Subscript[\[Alpha], 1, 2] == Subscript[d, 1, 2],
     Subscript[l, 2]^2 + Subscript[l, 3]^2 -
-      2 * Subscript[l, 2] * Subscript[l, 3]*Subscript[\[Alpha], 2,
-       3] == Subscript[d, 2, 3],
+      2 * Subscript[l, 2] * Subscript[l, 3]*Subscript[\[Alpha], 2, 3] == Subscript[d, 2, 3],
     Subscript[l, 3]^2 + Subscript[l, 4]^2 -
-      2 * Subscript[l, 3] * Subscript[l, 4]*Subscript[\[Alpha], 3,
-       4] == Subscript[d, 3, 4],
+      2 * Subscript[l, 3] * Subscript[l, 4]*Subscript[\[Alpha], 3, 4] == Subscript[d, 3, 4],
     Subscript[l, 4]^2 + Subscript[l, 1]^2 -
-      2 * Subscript[l, 4] * Subscript[l, 1]*Subscript[\[Alpha], 4,
-       1] == Subscript[d, 4, 1],
-    Subscript[l, 1] >= 0, Subscript[l, 2] >= 0, Subscript[l, 3] >= 0,
+      2 * Subscript[l, 4] * Subscript[l, 1]*Subscript[\[Alpha], 4, 1] == Subscript[d, 4, 1],
+    Subscript[l, 1] >= 0,
+    Subscript[l, 2] >= 0,
+    Subscript[l, 3] >= 0,
     Subscript[l, 4] >= 0
-    };
-  solution =
-   NSolve[system, {Subscript[l, 1], Subscript[l, 2], Subscript[l, 3],
-     Subscript[l, 4]}, Reals];
-  sol13 =
-   Flatten[{x, y, z} /. # & /@ ExtractApex[quad, #, 1, 3] & /@
-     solution, 1];
-  sol24 =
-   Flatten[{x, y, z} /. # & /@ ExtractApex[quad, #, 2, 4] & /@
-     solution, 1];
+  };
+  solution = NSolve[system, { Subscript[l, 1], Subscript[l, 2],
+                              Subscript[l, 3], Subscript[l, 4] },
+                              Reals];
+  sol13 = Flatten[{x, y, z} /. # & /@ ExtractApex[quad, #, 1, 3] & /@ solution, 1];
+  sol24 = Flatten[{x, y, z} /. # & /@ ExtractApex[quad, #, 2, 4] & /@ solution, 1];
   Intersection[sol13, sol24,
-   SameTest -> (EuclideanDistance[#1, #2] < 10^(-5) &)]
-  ]
+               SameTest->(EuclideanDistance[#1, #2] < 10^(-5) &)]
+]
+
 SolveForFour6[quad_, apex_] :=
- Module[{system, \[Alpha], d, ll, solution, sol13, sol24},
+    Module[{system, \[Alpha], d, ll, solution, sol13, sol24},
+
   (* Prepare foundation distances *)
+  Subscript[d, 1, 2] = SquaredEuclideanDistance[quad[[1]],
+                                                quad[[2]]];
+  Subscript[d, 2, 3] = SquaredEuclideanDistance[quad[[2]],
+                                                quad[[3]]];
+  Subscript[d, 3, 4] = SquaredEuclideanDistance[quad[[3]],
+                                                quad[[4]]];
+  Subscript[d, 4, 1] = SquaredEuclideanDistance[quad[[4]],
+                                                quad[[1]]];
+  Subscript[d, 1, 3] = SquaredEuclideanDistance[quad[[1]],
+                                                quad[[3]]];
+  Subscript[d, 2, 4] = SquaredEuclideanDistance[quad[[2]],
+                                                quad[[4]]];
 
-  Subscript[d, 1, 2] =
-   SquaredEuclideanDistance[quad[[1]], quad[[2]]];
-  Subscript[d, 2, 3] =
-   SquaredEuclideanDistance[quad[[2]], quad[[3]]];
-  Subscript[d, 3, 4] =
-   SquaredEuclideanDistance[quad[[3]], quad[[4]]];
-  Subscript[d, 4, 1] =
-   SquaredEuclideanDistance[quad[[4]], quad[[1]]];
-  Subscript[d, 1, 3] =
-   SquaredEuclideanDistance[quad[[1]], quad[[3]]];
-  Subscript[d, 2, 4] =
-   SquaredEuclideanDistance[quad[[2]], quad[[4]]];
   (* Prepare distances to vertex *)
-
   ll = Table[SquaredEuclideanDistance[quad[[i]], apex], {i, 4}];
-  (* Calculate flat angles *)
 
-  Subscript[\[Alpha], 1,
-   2] = -((Subscript[d, 1, 2] - ll[[1]] - ll[[2]])/(
-    2*Sqrt@ll[[1]]*Sqrt@ll[[2]]));
-  Subscript[\[Alpha], 2,
-   3] = -((Subscript[d, 2, 3] - ll[[2]] - ll[[3]])/(
-    2*Sqrt@ll[[2]]*Sqrt@ll[[3]]));
-  Subscript[\[Alpha], 3,
-   4] = -((Subscript[d, 3, 4] - ll[[3]] - ll[[4]])/(
-    2*Sqrt@ll[[3]]*Sqrt@ll[[4]]));
-  Subscript[\[Alpha], 4,
-   1] = -((Subscript[d, 4, 1] - ll[[4]] - ll[[1]])/(
-    2*Sqrt@ll[[4]]*Sqrt@ll[[1]]));
-  Subscript[\[Alpha], 1,
-   3] = -((Subscript[d, 1, 3] - ll[[1]] - ll[[3]])/(
-    2*Sqrt@ll[[1]]*Sqrt@ll[[3]]));
-  Subscript[\[Alpha], 2,
-   4] = -((Subscript[d, 2, 4] - ll[[2]] - ll[[4]])/(
-    2*Sqrt@ll[[2]]*Sqrt@ll[[4]]));
+  (* Calculate flat angles *)
+  Subscript[\[Alpha], 1, 2] =
+    -(Subscript[d, 1, 2] - ll[[1]] - ll[[2]]) /
+      (2 * Sqrt[ll[[1]]] * Sqrt[ll[[2]]]);
+  Subscript[\[Alpha], 2, 3] =
+    -(Subscript[d, 2, 3] - ll[[2]] - ll[[3]]) /
+      (2 * Sqrt[ll[[2]]] * Sqrt[ll[[3]]]);
+  Subscript[\[Alpha], 3, 4] =
+    -(Subscript[d, 3, 4] - ll[[3]] - ll[[4]]) /
+      (2 * Sqrt[ll[[3]]] * Sqrt[ll[[4]]]);
+  Subscript[\[Alpha], 4, 1] =
+    -(Subscript[d, 4, 1] - ll[[4]] - ll[[1]]) /
+      (2 * Sqrt[ll[[4]]] * Sqrt[ll[[1]]]);
+  Subscript[\[Alpha], 1, 3] =
+    -(Subscript[d, 1, 3] - ll[[1]] - ll[[3]]) /
+      (2 * Sqrt[ll[[1]]] * Sqrt[ll[[3]]]);
+  Subscript[\[Alpha], 2, 4] =
+    -(Subscript[d, 2, 4] - ll[[2]] - ll[[4]]) /
+      (2 * Sqrt[ll[[2]]] * Sqrt[ll[[4]]]);
 
   system = {
     Subscript[l, 1]^2 + Subscript[l, 2]^2 -
-      2 * Subscript[l, 1] * Subscript[l, 2]*Subscript[\[Alpha], 1,
-       2] == Subscript[d, 1, 2],
+      2 * Subscript[l, 1] * Subscript[l, 2]*Subscript[\[Alpha], 1, 2] == Subscript[d, 1, 2],
     Subscript[l, 2]^2 + Subscript[l, 3]^2 -
-      2 * Subscript[l, 2] * Subscript[l, 3]*Subscript[\[Alpha], 2,
-       3] == Subscript[d, 2, 3],
+      2 * Subscript[l, 2] * Subscript[l, 3]*Subscript[\[Alpha], 2, 3] == Subscript[d, 2, 3],
     Subscript[l, 3]^2 + Subscript[l, 4]^2 -
-      2 * Subscript[l, 3] * Subscript[l, 4]*Subscript[\[Alpha], 3,
-       4] == Subscript[d, 3, 4],
+      2 * Subscript[l, 3] * Subscript[l, 4]*Subscript[\[Alpha], 3, 4] == Subscript[d, 3, 4],
     Subscript[l, 4]^2 + Subscript[l, 1]^2 -
-      2 * Subscript[l, 4] * Subscript[l, 1]*Subscript[\[Alpha], 4,
-       1] == Subscript[d, 4, 1],
+      2 * Subscript[l, 4] * Subscript[l, 1]*Subscript[\[Alpha], 4, 1] == Subscript[d, 4, 1],
     Subscript[l, 1]^2 + Subscript[l, 3]^2 -
-      2 * Subscript[l, 1] * Subscript[l, 3]*Subscript[\[Alpha], 1,
-       3] == Subscript[d, 1, 3],
+      2 * Subscript[l, 1] * Subscript[l, 3]*Subscript[\[Alpha], 1, 3] == Subscript[d, 1, 3],
     Subscript[l, 2]^2 + Subscript[l, 4]^2 -
-      2 * Subscript[l, 2] * Subscript[l, 4]*Subscript[\[Alpha], 2,
-       4] == Subscript[d, 2, 4],
-    Subscript[l, 1] >= 0, Subscript[l, 2] >= 0, Subscript[l, 3] >= 0,
+      2 * Subscript[l, 2] * Subscript[l, 4]*Subscript[\[Alpha], 2, 4] == Subscript[d, 2, 4],
+    Subscript[l, 1] >= 0,
+    Subscript[l, 2] >= 0,
+    Subscript[l, 3] >= 0,
     Subscript[l, 4] >= 0
-    };
-  solution =
-   Solve[system, {Subscript[l, 1], Subscript[l, 2], Subscript[l, 3],
-     Subscript[l, 4]}, Reals];
-  sol13 =
-   Flatten[{x, y, z} /. # & /@ ExtractApex[quad, #, 1, 3] & /@
-     solution, 1];
-  sol24 =
-   Flatten[{x, y, z} /. # & /@ ExtractApex[quad, #, 2, 4] & /@
-     solution, 1];
+  };
+
+  solution = Solve[system, {Subscript[l, 1], Subscript[l, 2],
+                            Subscript[l, 3], Subscript[l, 4]},
+                            Reals];
+  sol13 = Flatten[{x, y, z} /. # & /@ ExtractApex[quad, #, 1, 3] & /@ solution, 1];
+  sol24 = Flatten[{x, y, z} /. # & /@ ExtractApex[quad, #, 2, 4] & /@ solution, 1];
   Intersection[sol13, sol24,
-   SameTest -> (EuclideanDistance[#1, #2] < 10^(-5) &)]
-  ]
+               SameTest -> (EuclideanDistance[#1, #2] < 10^(-5) &)]
+]
 \end{lstlisting}
 
 \subsection{Пример использования функций}
-Листинг программы для нахождения координат подвижного объекта на различных высотах в случае, когда
-РО расположены в верщинах правильного треугольника, а подвижный объект начинает
-подъем из центра масс треугольника:
+Листинг программы для нахождения координат подвижного объекта на различных высотах в случае, когда РО расположены в верщинах правильного треугольника, а подвижный объект начинает подъем из центра масс треугольника:
 \begin{lstlisting}
   M1 = {0, 0, 0};
   M2 = {6, 9 , 0};
@@ -254,9 +248,9 @@ SolveForFour6[quad_, apex_] :=
   PlotFigure[foundation, M0]
   solutions =
     Table[{{M0[[1]], M0[[2]], i},
-      SolveForThree[
-       foundation, {M0[[1]], M0[[2]],
-        i}]}, {i, 0, 10, 0.1}];
+          SolveForThree[foundation,
+                        {M0[[1]], M0[[2]], i}]},
+                        {i, 0, 10, 0.1}];
   Grid@solutions;
   PlotPointsColored[foundation, solutions[[1 ;;, 2]]]
 \end{lstlisting}
