@@ -86,18 +86,23 @@
 \usepackage{hyphenat}
 \hyphenation{ази-му-таль-но}
 
-
+\usepackage[backend=biber,
+            bibstyle=gost-numeric,
+            language=auto,
+            babel=other,
+            sorting=ntvy,
+            doi=false,
+            eprint=false,
+            isbn=false,
+            dashed=false
+            ]{biblatex}
+\addbibresource{./bibliography.bib}
 \setcounter{tocdepth}{2}
 \addto\captionsrussian{\def\refname{Список использованных источников}}
 \renewcommand{\thepage}{{\normalsize\textrm{\upshape\arabic{page}}}}
 \usepackage{csquotes}
 \usepackage{subfiles}
 \numberwithin{equation}{section}
-
-% Command to make a roman number
-\newcommand{\RN}[1]{%
-  \textup{\uppercase\expandafter{\romannumeral#1}}%
-}
 
 \makeatletter
 \renewcommand\@biblabel[1]{#1}
@@ -169,8 +174,9 @@
 %%% СПИСОК ЛИТЕРАТУРЫ
 \newpage
 \addcontentsline{toc}{section}{Список использованных источников}
-\bibliography{../bib_files/bibliography}
-\bibliographystyle{ugost2003}
+\printbibliography
+% \bibliography{bibliography}
+% \bibliographystyle{ugost2003}
 
 %%% ПРИЛОЖЕНИЕ
 \begin{appendices}
