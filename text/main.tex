@@ -94,7 +94,8 @@
             doi=false,
             eprint=false,
             isbn=false,
-            dashed=false
+            dashed=false,
+            maxbibnames=4
             ]{biblatex}
 \addbibresource{./bibliography.bib}
 \setcounter{tocdepth}{2}
@@ -168,10 +169,12 @@
 
 %%% ЗАКЛЮЧЕНИЕ
 \section*{\centering Заключение}
+\nocite{*}
 \addcontentsline{toc}{section}{Заключение}
 \subfile{sections/conclusion}
 
 %%% СПИСОК ЛИТЕРАТУРЫ
+%TEST:
 \newpage
 \addcontentsline{toc}{section}{Список использованных источников}
 \printbibliography
