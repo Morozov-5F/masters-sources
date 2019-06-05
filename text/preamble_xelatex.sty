@@ -17,8 +17,16 @@
 \setsansfont{Arial}
 \newfontfamily{\cyrillicfonttt}{Courier New}
 \setmonofont{Courier New}
-\setmathfont{STIX Two Math}
-% \usepackage{newtxmath}
+
+\IfFontExistsTF{STIX Two Math}{
+    \setmathfont{STIX Two Math}
+}{
+    \IfFontExistsTF{STIX Math}{
+        \setmathfont{STIX Math}
+    }{
+        \usepackage{newtxmath}
+    }
+}
 
 % XeLaTeX uses polyglossia package instead of Babel
 \usepackage{polyglossia}
