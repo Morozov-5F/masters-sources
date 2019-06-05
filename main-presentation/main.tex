@@ -3,7 +3,7 @@
 \documentclass[russian,hyperref={unicode}]{beamer}
 % Other packages (for math and grahics)
 \usepackage{amsmath, amssymb, graphicx, csquotes}
-\graphicspath{{./images/}}
+\graphicspath{{../articles/4-rlnc-conference/presentation/images/}}
 % Exclude backup slides from numbering
 \usepackage{appendixnumberbeamer}
 % Theme selection
@@ -125,13 +125,13 @@
     \begin{enumerate}
       \item Как численно узнать количество решений? \label{q:1}
       \item Как выбрать <<правильное>> решение? \label{q:2}
-      \item Как оценить погрешность нахождения решения при заданных входных данных? \label{q:3}
+      \item Как оценить погрешность нахождения решения при заданных погрешностях входных данных? \label{q:3}
     \end{enumerate}
 
   \end{frame}
 
   \begin{frame}{Особенности решения. Первый этап}
-    Проблемы~\ref{q:1} и~\ref{q:2} были решены птуем выбора детерминированного подхода "--- число уравнений равно трем.
+    Проблемы~\ref{q:1} и~\ref{q:2} были решены путем выбора детерминированного подхода "--- число уравнений равно трем.
 
     Увеличение количества РО усложняет задачу, посколько из-за погрешностей измерений система~\eqref{eq:system} становится несовместной.
 
@@ -146,7 +146,7 @@
       \item В реализации присутствуют только элементарные арифметические действия "--- обратная матрица выписывается явно.
     \end{itemize}
 
-    С.~Н.~Ушаковым была установлена структура и условия динамика появления паразитных решений; это же было подтверждено с помощью компьютерных расчетов.
+    По итогам компьютерного моделирования С.~Н.~Ушаковым была установлена структура и условия динамика появления паразитных решений.
   \end{frame}
 
   \section{Заключение}
@@ -154,7 +154,7 @@
   \begin{frame}{Вспомогательные задачи}
     В данной работе также рассматриваются другие варианты локальных навигационных систем, в частности, когда в системе присутствует несколько подвижных объектов, или когда подвижный объект оснащен высотомером.
 
-    Также была рассмотрена вспомогательная задача "--- влияние на результаты измерений БПА подстилающей поверхности.
+    Также была рассмотрена вспомогательная задача "--- влияние на результаты измерений БПА подстилающей поверхности. В такой ситуации подвижный объект принимает два сигнала "--- исходный и отраженный.
   \end{frame}
 
   \begin{frame}{Дальнейшие планы}
@@ -167,10 +167,81 @@
     \end{itemize}
   \end{frame}
 
-  \begin{frame}[allowframebreaks]{Список используемых источников}
+  \begin{frame}[allowframebreaks]{Список публикаций}
     % \bibliographystyle{amsalpha}
     \printbibliography
   \end{frame}
 
   \frame{\titlepage}
+
+  \appendix
+  \begin{frame}{Визуализация решений, полученных на первом этапе}
+    \begin{columns}[c]
+      \begin{column}{.5\textwidth}
+        \begin{itemize}
+          \item В основании "--- равносторонний треугольник
+          \item Аппарат изначально находился в центре
+          \item Фиолетовым цветом выделены зоны с одним решением
+          \item Оранжевым "--- зоны с несколькими решениями
+        \end{itemize}
+      \end{column}
+      \begin{column}{.5\textwidth}
+        \begin{center}
+          \includegraphics[width=\columnwidth]{tetrahedron-regular}
+        \end{center}
+      \end{column}
+    \end{columns}
+  \end{frame}
+
+  \begin{frame}{Визуализация решений, полученных на первом этапе}
+    \begin{columns}[c]
+      \begin{column}{.5\textwidth}
+        \begin{itemize}
+          \item В основании также равносторонний треугольник
+          \item Аппарат изначально находился рядом с одной из вершин
+        \end{itemize}
+      \end{column}
+      \begin{column}{.5\textwidth}
+        \begin{center}
+          \includegraphics[width=\columnwidth]{tetrahedron-bifurcation}
+        \end{center}
+      \end{column}
+    \end{columns}
+  \end{frame}
+
+  \begin{frame}{Визуализация решений, полученных на первом этапе}
+    \begin{columns}[c]
+      \begin{column}{.5\textwidth}
+        \begin{itemize}
+          \item В основании также равносторонний треугольник
+          \item Аппарат изначально находился за пределами треугольника
+          \item При дальнейшем подъеме аппарата паразитные имеют сложную структуру
+        \end{itemize}
+      \end{column}
+      \begin{column}{.5\textwidth}
+        \begin{center}
+          \includegraphics[height=.9\textheight]{tetrahedron-away}
+        \end{center}
+      \end{column}
+    \end{columns}
+  \end{frame}
+
+  \begin{frame}{Геометрическая интерпретация решений}
+    Рассмотрим треугольник, образованный двумя РО ($M_i$, $M_j$) и подвижным объектом $M_0$.
+
+    Так как известен угол $\angle M_i M_0 M_j$, точка $M_0$ может лежать на окружности с хордой $M_i$ $M_j$.
+
+    Геометрическое место точек, в которых может находится $M_0$ при заданных $\ell_{i}$, $\ell_{j}$ и $\angle M_i M_0 M_j$ образуется вращением этой окружности вокруг хорды $M_i$ и $M_j$, образуя \textit{закрытый тор}.
+
+    Пересечение трех закрытых торов, полученных для каждой из сторон, является истинным положением воздушного объекта.
+  \end{frame}
+
+  \begin{frame}{Геометрическая интерпретация решений}
+    \begin{center}
+      \begin{figure}
+        \includegraphics[height=.7\textheight]{torus}
+        \caption{Закрытый тор, иллюстрирующий области возможного нахождения подвижного объекта $M_0$ относительно ребра $M_1M_2$.}
+      \end{figure}
+    \end{center}
+  \end{frame}
 \end{document}
