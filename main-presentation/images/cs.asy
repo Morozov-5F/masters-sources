@@ -5,9 +5,9 @@ import three;
 
 size(4cm, 0);
 
-draw(-2X -- 2X, blue, arrow=Arrow3(emissive(blue)), L=Label("$x$", position=EndPoint, align=W, black));  //x-axis
-draw(-2Y -- 2Y, green, arrow=Arrow3(emissive(green)), L=Label("$y$", position=EndPoint, black)); //y-axis
-draw(-2Z -- 1Z, red, arrow=Arrow3(emissive(red)), L=Label("$z$", position=EndPoint, black));   //z-axis
+draw(-2X -- 2X, blue, arrow=Arrow3(emissive(blue)), L=Label("$x'$", position=EndPoint, align=W, black));  //x-axis
+draw(-2Y -- 2Y, green, arrow=Arrow3(emissive(green)), L=Label("$y'$", position=EndPoint, black)); //y-axis
+draw(-2Z -- 1Z, red, arrow=Arrow3(emissive(red)), L=Label("$z'$", position=EndPoint, black));   //z-axis
 
 triple M = (1, 1.5, 0);
 triple PO = M - 1Z;

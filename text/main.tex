@@ -27,6 +27,8 @@
 \usepackage{graphicx}
 \usepackage{subfig}
 \graphicspath{{./images/}}
+\usepackage{chngcntr}
+\counterwithin{figure}{section}
 \renewcommand{\thefigure}{\arabic{section}.\arabic{figure}}
 \renewcommand{\thesubfigure}{\asbuk{subfigure}}
 \captionsetup[subfigure]{labelformat=empty}
@@ -98,7 +100,7 @@
             eprint=false,
             isbn=false,
             dashed=false,
-            maxbibnames=4
+            maxbibnames=4,
             ]{biblatex}
 \addbibresource{./bibliography.bib}
 \setcounter{tocdepth}{2}
