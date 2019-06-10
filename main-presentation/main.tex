@@ -6,6 +6,7 @@
 \graphicspath{{../articles/4-rlnc-conference/presentation/images/}}
 % Exclude backup slides from numbering
 \usepackage{appendixnumberbeamer}
+\usepackage{asymptote}
 % Theme selection
 \usetheme[sectionpage=none, numbering=fraction]{metropolis}
 % Locale packages
@@ -73,12 +74,20 @@
   \begin{frame}{Постановка задачи}
     \begin{columns}[c]
       \begin{column}{.5\textwidth}
-        %\includegraphics[height=.9\textheight]{yaw_pitch_roll}
+        \begin{figure}
+          \begin{center}
+            \includegraphics[height=.7\textheight]{yaw_pitch_roll}
+            \caption{Угловая ориентация подвижного объекта}
+          \end{center}
+        \end{figure}
       \end{column}
       \begin{column}{.5\textwidth}
-        \begin{center}
-          %\includegraphics[height=.9\textheight]{coordinates}
-        \end{center}
+        \begin{figure}
+          \begin{center}
+            \includegraphics[width=1.0\linewidth]{cs}
+            \caption{Измеряемые параметры: $\alpha$ "--- азимут, $\varepsilon$ "--- угол места}
+          \end{center}
+        \end{figure}
       \end{column}
     \end{columns}
   \end{frame}
@@ -140,17 +149,25 @@
   \end{frame}
 
   \begin{frame}{Особенности решения. Первый этап}
-    Систему~\eqref{eq:system} можно свести к уравнению четвертой степени относительно одной переменной. При этом, коэффициент при старшей степени может принимать очень малые значения и даже обращаться в ноль.
+    \begin{figure}
+      \begin{center}
+        \includegraphics[width=.8\textheight]{pyramids}
 
-    \begin{equation*}
-      \begin{array}{l}
-      (1-4 \cos^2 \alpha_{23}) b^4 + 4 \cos \alpha_{23} (\cos \alpha_{23} + 2 \cos \alpha_{12} \cos \alpha_{23} ) b^3 - \\
-      - 2 (1 + 8 \cos \alpha_{12} \cos \alpha_{13} \cos \alpha_{23}) b^2 +
-      \\+ 4 \cos \alpha_{13} (\cos \alpha_{23} + 2 \cos \alpha_{12} \cos \alpha_{13}) b + 1-4 \cos^2 \alpha_{13} =0
-      \end{array}
-    \end{equation*}
+        \caption{Иллюстрация неоднозначности задачи}
+      \end{center}
+    \end{figure}
+  \end{frame}
 
-    Предложить устойчивый метод решения такого уравнения не удалось.
+  \begin{frame}{Особенности решения. Первый этап}
+    Систему~\eqref{eq:system} можно свести к уравнению четвертой степени относительно одной переменной:
+
+    \begin{multline*}
+      \left(1-4 \cos^2 \alpha_{23}\right) b^4 + 4 \cos \alpha_{23} \left(\cos \alpha_{23} + 2 \cos \alpha_{12} \cos \alpha_{23} \right) b^3 - \\
+      - 2 \left(1 + 8 \cos \alpha_{12} \cos \alpha_{13} \cos \alpha_{23}\right) b^2 + \\
+      + 4 \cos \alpha_{13} \left(\cos \alpha_{23} + 2 \cos \alpha_{12} \cos \alpha_{13}\right) b + 1-4 \cos^2 \alpha_{13} = 0
+    \end{multline*}
+
+    При этом, коэффициент при старшей степени может принимать очень малые значения и даже обращаться в ноль. Предложить устойчивый метод решения такого уравнения не удалось.
   \end{frame}
 
   \begin{frame}{Особенности решения. Первый этап}

@@ -183,11 +183,11 @@
 % TODO: FIXME!
 %
 \begin{equation} \label{eq:tetrahedron:one_liner}
-\begin{array}{l}
-(1-4 \cos^2 \alpha_{23}) b^4 + 4 \cos \alpha_{23} (\cos \alpha_{23} + 2 \cos \alpha_{12} \cos \alpha_{23} ) b^3 - \\
-- 2 (1 + 8 \cos \alpha_{12} \cos \alpha_{13} \cos \alpha_{23}) b^2 +
-\\+ 4 \cos \alpha_{13} (\cos \alpha_{23} + 2 \cos \alpha_{12} \cos \alpha_{13}) b + 1-4 \cos^2 \alpha_{13} =0
-\end{array}
+  \begin{gathered}
+      \left(1-4 \cos^2 \alpha_{23}\right) b^4 + 4 \cos \alpha_{23} \left(\cos \alpha_{23} + 2 \cos \alpha_{12} \cos \alpha_{23} \right) b^3 - \\
+      - 2 \left(1 + 8 \cos \alpha_{12} \cos \alpha_{13} \cos \alpha_{23}\right) b^2 + \\
+      + 4 \cos \alpha_{13} \left(\cos \alpha_{23} + 2 \cos \alpha_{12} \cos \alpha_{13}\right) b + 1-4 \cos^2 \alpha_{13} = 0
+  \end{gathered}
 \end{equation}
 Для уравнения~\eqref{eq:tetrahedron:one_liner} значения угла $\alpha_{ij}$, при которых $\cos\alpha_{23} = \rfrac{1}{2}$ являются особыми. При таких значениях угла $\alpha_{ij}$, порядок уравнения~\eqref{eq:tetrahedron:one_liner} понижается с четы-рех до трех. Кроме того, значения корня $b = \pm 1$ приводят к другим частным случаям. Эти обстоятельства не позволяют в общем случае использовать уравнение~\eqref{eq:tetrahedron:one_liner} для численного решения исходной системы уравнений~\eqref{eq:tetrahedron:system_equal}, поскольку при приближении к вышеупомянутым вырожденным случаям нарушается устойчивость искомых решений.
 
@@ -207,7 +207,7 @@
     x_3 - x_1 & y_3 - y_1 & z_3 - z_1
   \end{matrix}\right|,
 \end{equation*}
-где $\mathbf{s}_{\text{нз}1} = \left(1, 0, 0\right)$, $\mathbf{s}_{\text{нз}2} = \left(0, 1, 0\right)$, $\mathbf{s}_{\text{нз}3} = \left(0, 0, 1\right)$ "--- единичный орты в НЗСК. Если $\mathbf{n}$ образует тупой угол с $\mathbf{s}_{\text{нз}3}$, т.е. скалярное произведение  $\left(\mathbf{n}, \mathbf{s}_{\text{нз}3}\right) < 0$, то вектор $\mathbf{n}$ заменяется на $-\mathbf{n}$.
+где $\mathbf{s}_{\text{нз}1} = \left(1, 0, 0\right)$, $\mathbf{s}_{\text{нз}2} = \left(0, 1, 0\right)$, $\mathbf{s}_{\text{нз}3} = \left(0, 0, 1\right)$ "--- единичные орты в НЗСК. Если $\mathbf{n}$ образует тупой угол с $\mathbf{s}_{\text{нз}3}$, т.е. скалярное произведение  $\left(\mathbf{n}, \mathbf{s}_{\text{нз}3}\right) < 0$, то вектор $\mathbf{n}$ заменяется на $-\mathbf{n}$.
 
 Зададим единичные орты $\mathbf{s}_\text{л} = \left(\mathbf{s}_{\text{л}1}, \mathbf{s}_{\text{л}2}, \mathbf{s}_{\text{л}3}\right)$, которые задаются следующим образом:
 \begin{equation*}
