@@ -19,7 +19,7 @@ ComposeFaces[foundation_, apex_] := Module[{foundationPairs,
 ]
 
 PlotFigure[foundation_, apex_] := Module[{apexLow},
-  (* We assume that all verices are already sorted. We can sort polygon in case of a convex shape, but it's not possible to do so otherwise *)
+  (* Предполагаем, что вершины отсортированы. Сортировка невыпуклых многоугольников -- нетривиальная задача *)
 
   apexLow = Flatten@{apex[[1 ;; 2]], 0};
   Graphics3D[{ EdgeForm@Thick, FaceForm@Opacity[0.9],
@@ -71,7 +71,7 @@ ExtractApex[foundation_, sides_, startEq_:  0, endEq_: 0] :=
 SolveForThree[triangle_, apex_] :=
                 Module[{system, \[Alpha], d, ll, solution},
 
-  (* Prepare foundation distances *)
+  (* Подсчет длин ребер основания *)
   Subscript[d, 1, 2] = SquaredEuclideanDistance[triangle[[1]],
                                                 triangle[[2]]];
   Subscript[d, 2, 3] = SquaredEuclideanDistance[triangle[[2]],
@@ -79,11 +79,11 @@ SolveForThree[triangle_, apex_] :=
   Subscript[d, 3, 1] = SquaredEuclideanDistance[triangle[[3]],
                                                 triangle[[1]]];
 
-  (* Prepare distances to vertex *)
+  (* Подсчет длин боковых ребер *)
   ll = Table[SquaredEuclideanDistance[triangle[[i]], apex],
                                       {i, 3}];
 
-  (* Calculate flat angles *)
+  (* Подсчет плоских углов *)
   Subscript[\[Alpha], 1, 2] =
     -(Subscript[d, 1, 2] - ll[[1]] - ll[[2]]) /
         (2 * Sqrt[ll[[1]]] * Sqrt[ll[[2]]]);
@@ -117,7 +117,6 @@ SolveForThree[triangle_, apex_] :=
 
 SolveForFour4[quad_, apex_, prevRoot_: {}] :=
     Module[{system, \[Alpha], d, ll, solution, sol13, sol24},
-  (* Prepare foundation distances *)
 
   Subscript[d, 1, 2] = SquaredEuclideanDistance[quad[[1]],
                                                 quad[[2]]];
@@ -128,10 +127,8 @@ SolveForFour4[quad_, apex_, prevRoot_: {}] :=
   Subscript[d, 4, 1] = SquaredEuclideanDistance[quad[[4]],
                                                 quad[[1]]];
 
-  (* Prepare distances to vertex *)
   ll = Table[SquaredEuclideanDistance[quad[[i]], apex], {i, 4}];
 
-  (* Calculate flat angles *)
   Subscript[\[Alpha], 1, 2] =
     -(Subscript[d, 1, 2] - ll[[1]] - ll[[2]]) /
       (2 * Sqrt[ll[[1]]] * Sqrt[ll[[2]]]);
@@ -171,7 +168,6 @@ SolveForFour4[quad_, apex_, prevRoot_: {}] :=
 SolveForFour6[quad_, apex_] :=
     Module[{system, \[Alpha], d, ll, solution, sol13, sol24},
 
-  (* Prepare foundation distances *)
   Subscript[d, 1, 2] = SquaredEuclideanDistance[quad[[1]],
                                                 quad[[2]]];
   Subscript[d, 2, 3] = SquaredEuclideanDistance[quad[[2]],
@@ -185,10 +181,8 @@ SolveForFour6[quad_, apex_] :=
   Subscript[d, 2, 4] = SquaredEuclideanDistance[quad[[2]],
                                                 quad[[4]]];
 
-  (* Prepare distances to vertex *)
   ll = Table[SquaredEuclideanDistance[quad[[i]], apex], {i, 4}];
 
-  (* Calculate flat angles *)
   Subscript[\[Alpha], 1, 2] =
     -(Subscript[d, 1, 2] - ll[[1]] - ll[[2]]) /
       (2 * Sqrt[ll[[1]]] * Sqrt[ll[[2]]]);

@@ -30,7 +30,7 @@
 \renewcommand{\thefigure}{\arabic{section}.\arabic{figure}}
 \renewcommand{\thesubfigure}{\asbuk{subfigure}}
 \captionsetup[subfigure]{labelformat=empty}
-\captionsetup[figure]{labelfont=bf}
+\captionsetup[figure]{labelfont=normalfont, labelsep=endash}
 
 
 % Typesetting
@@ -93,7 +93,7 @@
             bibstyle=gost-numeric,
             language=auto,
             babel=other,
-            sorting=ntvy,
+            sorting=none,
             doi=false,
             eprint=false,
             isbn=false,
@@ -102,7 +102,9 @@
             ]{biblatex}
 \addbibresource{./bibliography.bib}
 \setcounter{tocdepth}{2}
-\addto\captionsrussian{\def\refname{Список использованных источников}}
+\addto\captionsrussian{
+  \def\refname{Список использованных источников}
+}
 \renewcommand{\thepage}{{\normalsize\textrm{\upshape\arabic{page}}}}
 \usepackage{csquotes}
 \usepackage{subfiles}
@@ -112,11 +114,19 @@
 \renewcommand\@biblabel[1]{#1}
 \makeatother
 
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=false,
+}
+
 \usepackage[lastpage,user]{zref}
+
+\renewcommand\labelitemi{---}
+
+\usepackage[figure]{totalcount}
 \usepackage{totcount}
 \newtotcounter{citnum} %From the package documentation
-\def\oldbibitem{} \let\oldbibitem=\bibitem
-\def\bibitem{\stepcounter{citnum}\oldbibitem}
+\AtEveryBibitem{\stepcounter{citnum}}
 
 \renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
 \cftsetindents{section}{0em}{2em}
